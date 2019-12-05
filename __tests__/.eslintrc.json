@@ -1,0 +1,27 @@
+{
+  "env": {
+    "es6": true,
+    "jest": true,
+    "jest/globals": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "parser": "babel-eslint",
+    "project": "./__tests__/tsconfig.json",
+    "sourceType": "module"
+  },
+  "plugins": ["jest", "@typescript-eslint"],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": 0
+  }
+}
