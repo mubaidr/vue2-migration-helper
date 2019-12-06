@@ -1,7 +1,7 @@
-import { types } from '@babel/core'
 import traverse from '@babel/traverse'
 
-import { getAst } from './lib/ast-utilities'
+import { getAst, getCode } from './lib/ast-utilities'
+import { getImportsNode } from './lib/imports'
 import { getTemplate } from './lib/template-utilities'
 
 // TODO: add reactive properties definitions
@@ -19,28 +19,18 @@ export async function vue2MigrationHelper(options: {
   const ast = getAst(template.script)
 
   traverse(ast, {
-    enter(path) {
-      const { type } = path.node
-
-      if (type === 'Program') {
-        // insert vue 3 imports
-        const importNode = types.importDeclaration(
-          [
-            types.importSpecifier(
-              types.identifier('ref'),
-              types.identifier('ref')
-            )
-            // types.importSpecifier('watch'),
-            // types.importSpecifier('computed'),
-            // types.importSpecifier('onMounted '),
-          ],
-          types.stringLiteral('vue')
-        )
-
-        // path.node.body.unshift(types.importNode(importNode))
-
-        console.log(path.node)
-      }
+    Program: path => {
+      path.node.body.unshift(getImportsNode())
+    },
+    ExportDefaultDeclaration: path => {
+      console.log(path.node.declaration)
     }
   })
+
+  console.log('TCL: code \r\n', getCode(ast))
 }
+
+// testing code
+vue2MigrationHelper({
+  path: './__tests__/data/text.vue'
+})

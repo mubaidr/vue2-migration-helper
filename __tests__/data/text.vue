@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted } from '@vue/composition-api'
-
 const zero = {}
 
 export default {

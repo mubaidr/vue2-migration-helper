@@ -1,7 +1,10 @@
-import babelParser from '@babel/parser'
+import { print } from 'recast'
+
+import { parse } from '@babel/parser'
+import { Node } from '@babel/traverse'
 
 export function getAst(source: string) {
-  const ast = babelParser.parse(source, {
+  const ast = parse(source, {
     sourceType: 'module',
     plugins: [
       'typescript',
@@ -13,6 +16,15 @@ export function getAst(source: string) {
   })
 
   return ast
+}
+
+export function getCode(ast: Node) {
+  return print(ast, {
+    tabWidth: 2,
+    quote: 'single',
+    arrayBracketSpacing: true,
+    objectCurlySpacing: true
+  }).code
 }
 
 export default {
