@@ -1,4 +1,4 @@
-import * as lib from '../../src/lib'
+import * as lib from '../../src/'
 
 describe('vue2-migration-helper', () => {
   test('should be defined', () => {
