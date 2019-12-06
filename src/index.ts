@@ -1,5 +1,4 @@
-import traverse from '@babel/traverse'
-
+import traverse, { Node, NodePath } from '@babel/traverse'
 import { getAst, getCode } from './lib/ast-utilities'
 import { getImportsNode } from './lib/imports'
 import { getTemplate } from './lib/template-utilities'
@@ -17,13 +16,28 @@ export async function vue2MigrationHelper(options: {
 }): Promise<void> {
   const template = await getTemplate(options.path)
   const ast = getAst(template.script)
+  // const sections: string[] = []
 
   traverse(ast, {
     Program: path => {
       path.node.body.unshift(getImportsNode())
     },
     ExportDefaultDeclaration: path => {
-      console.log(path.node.declaration)
+      const declaration: Node = path.node.declaration
+
+      // console.log(declaration)
+
+      Object.entries(declaration).forEach(entry => {
+        const key: string = entry[0]
+        const value: NodePath[] = entry[1]
+
+        if (key === 'properties') {
+          // value.forEach((v: Node) => {
+          //   // console.log(v.key)
+          // })
+          console.log('TCL: value', value[0].key)
+        }
+      })
     }
   })
 
