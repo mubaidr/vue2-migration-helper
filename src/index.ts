@@ -1,6 +1,5 @@
-import traverse, { Node, NodePath } from '@babel/traverse'
-import { getAst, getCode } from './lib/ast-utilities'
-import { getImportsNode } from './lib/imports'
+import { namedTypes, visit } from 'ast-types'
+import { getAst } from './lib/ast-utilities'
 import { getTemplate } from './lib/template-utilities'
 
 // TODO: add reactive properties definitions
@@ -18,30 +17,34 @@ export async function vue2MigrationHelper(options: {
   const ast = getAst(template.script)
   // const sections: string[] = []
 
-  traverse(ast, {
-    Program: path => {
-      path.node.body.unshift(getImportsNode())
+  visit(ast, {
+    visitProgram: path => {
+      // path.node.body.unshift(getImportsNode())
     },
-    ExportDefaultDeclaration: path => {
-      const declaration: Node = path.node.declaration
+    visitExportDefaultDeclaration: path => {
+      const declaration = path.node.declaration
 
-      // console.log(declaration)
+      if (declaration.type === 'ObjectExpression') {
+        const properties = declaration.properties
 
-      Object.entries(declaration).forEach(entry => {
-        const key: string = entry[0]
-        const value: NodePath[] = entry[1]
+        properties.forEach(property => {
+          if (namedTypes.SpreadProperty.check(property)) {
+            console.log('SpreadProperty')
+          }
 
-        if (key === 'properties') {
-          // value.forEach((v: Node) => {
-          //   // console.log(v.key)
-          // })
-          console.log('TCL: value', value[0].key)
-        }
-      })
+          if (namedTypes.ObjectMethod.check(property)) {
+            console.log('ObjectMethod')
+          }
+
+          if (namedTypes.ObjectProperty.check(property)) {
+            console.log('ObjectProperty')
+          }
+        })
+      }
     }
   })
 
-  console.log('TCL: code \r\n', getCode(ast))
+  // console.log('TCL: code \r\n', getCode(ast))
 }
 
 // testing code

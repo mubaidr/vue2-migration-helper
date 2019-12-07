@@ -1,7 +1,6 @@
-import { print } from 'recast'
-
 import { parse } from '@babel/parser'
-import { Node } from '@babel/traverse'
+import { print } from 'recast'
+import { Node } from '@babel/types'
 
 export function getAst(source: string) {
   const ast = parse(source, {
