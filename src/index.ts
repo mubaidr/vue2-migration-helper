@@ -1,4 +1,4 @@
-import { namedTypes, visit } from 'ast-types'
+import traverse from '@babel/traverse'
 import { getAst } from './lib/ast-utilities'
 import { getTemplate } from './lib/template-utilities'
 
@@ -17,29 +17,15 @@ export async function vue2MigrationHelper(options: {
   const ast = getAst(template.script)
   // const sections: string[] = []
 
-  visit(ast, {
-    visitProgram: path => {
+  traverse(ast, {
+    Program: path => {
       // path.node.body.unshift(getImportsNode())
     },
-    visitExportDefaultDeclaration: path => {
+    ExportDefaultDeclaration: path => {
       const declaration = path.node.declaration
 
       if (declaration.type === 'ObjectExpression') {
         const properties = declaration.properties
-
-        properties.forEach(property => {
-          if (namedTypes.SpreadProperty.check(property)) {
-            console.log('SpreadProperty')
-          }
-
-          if (namedTypes.ObjectMethod.check(property)) {
-            console.log('ObjectMethod')
-          }
-
-          if (namedTypes.ObjectProperty.check(property)) {
-            console.log('ObjectProperty')
-          }
-        })
       }
     }
   })
