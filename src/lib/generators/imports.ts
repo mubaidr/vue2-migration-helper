@@ -1,7 +1,7 @@
 import { types } from '@babel/core'
 
-export function getImportsNode() {
-  return types.importDeclaration(
+export function addImports(ast: types.File) {
+  const importStatements = types.importDeclaration(
     [
       types.importSpecifier(types.identifier('ref'), types.identifier('ref')),
       types.importSpecifier(
@@ -19,8 +19,10 @@ export function getImportsNode() {
     ],
     types.stringLiteral('vue')
   )
+
+  // ast.node.body.unshift(importStatements)
 }
 
 export default {
-  getImportsNode
+  addImports
 }

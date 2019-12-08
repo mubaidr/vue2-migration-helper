@@ -1,7 +1,7 @@
+import { NodePath, types } from '@babel/core'
 import traverse from '@babel/traverse'
-import { Identifier } from '@babel/types'
 import { getAst } from './lib/ast-utilities'
-import { getImportsNode } from './lib/imports'
+import { addImports } from './lib/generators/imports'
 import { getTemplate } from './lib/template-utilities'
 
 // TODO: add reactive properties definitions
@@ -15,44 +15,26 @@ import { getTemplate } from './lib/template-utilities'
 export async function vue2MigrationHelper(options: {
   path: string
 }): Promise<void> {
-  const template = await getTemplate(options.path)
-  const ast = getAst(template.script)
-  // const sections: string[] = []
+  const originalTemplate = await getTemplate(options.path)
+  const originalAst = getAst(originalTemplate.script)
+  // program and export default reference
+  const outputAst = types.file(types.program([]), [], [])
+  let exportDefaultDeclaration: NodePath<types.ExportDefaultDeclaration>
 
-  traverse(ast, {
-    Program: path => {
-      path.node.body.unshift(getImportsNode())
-    },
+  // copy export node
+  traverse(originalAst, {
     ExportDefaultDeclaration: path => {
-      const declaration = path.node.declaration
-
-      if (declaration.type === 'ObjectExpression') {
-        const properties = declaration.properties
-
-        properties.forEach(property => {
-          let key: Identifier
-
-          switch (property.type) {
-            case 'ObjectMethod':
-              key = property.key
-              console.log(key.name)
-              break
-            case 'ObjectProperty':
-              key = property.key
-              console.log(key.name)
-              break
-            case 'SpreadElement':
-              if (property.argument.type === 'ArrayExpression') {
-                console.log(property.argument.elements.length)
-              }
-              break
-          }
-        })
-      }
+      // exportDefaultDeclaration = JSON.parse(JSON.stringify(path))
     }
   })
 
-  // console.log('TCL: code \r\n', getCode(ast))
+  // add vue 3 imports
+  addImports(outputAst)
+
+  console.log(originalAst, outputAst)
+
+  // update component body
+  // console.log('TCL: code \r\n', getCode(originalAst))
 }
 
 // testing code

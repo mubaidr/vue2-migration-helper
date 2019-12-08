@@ -16,5 +16,6 @@ export function getCode(ast: Node) {
 }
 
 export default {
-  getAst
+  getAst,
+  getCode
 }
