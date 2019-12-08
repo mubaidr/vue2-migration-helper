@@ -1,5 +1,6 @@
 import traverse from '@babel/traverse'
-import { getAst, getCode } from './lib/ast-utilities'
+import { Identifier } from '@babel/types'
+import { getAst } from './lib/ast-utilities'
 import { getImportsNode } from './lib/imports'
 import { getTemplate } from './lib/template-utilities'
 
@@ -27,11 +28,31 @@ export async function vue2MigrationHelper(options: {
 
       if (declaration.type === 'ObjectExpression') {
         const properties = declaration.properties
+
+        properties.forEach(property => {
+          let key: Identifier
+
+          switch (property.type) {
+            case 'ObjectMethod':
+              key = property.key
+              console.log(key.name)
+              break
+            case 'ObjectProperty':
+              key = property.key
+              console.log(key.name)
+              break
+            case 'SpreadElement':
+              if (property.argument.type === 'ArrayExpression') {
+                console.log(property.argument.elements.length)
+              }
+              break
+          }
+        })
       }
     }
   })
 
-  console.log('TCL: code \r\n', getCode(ast))
+  // console.log('TCL: code \r\n', getCode(ast))
 }
 
 // testing code

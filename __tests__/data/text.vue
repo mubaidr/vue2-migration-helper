@@ -10,20 +10,20 @@ export default {
     return {
       one: true,
       two: 2,
-      three: 'three',
+      three: 'three'
     }
   },
 
   watch: {
     two(val) {
       console.log(val)
-    },
+    }
   },
 
   computed: {
     oneComputed() {
       return !this.one
-    },
+    }
   },
 
   mounted() {
@@ -33,8 +33,10 @@ export default {
   methods: {
     logOne() {
       console.log(this.one)
-    },
+    }
   },
+
+  ...[function some() {}, function other() {}]
 }
 </script>
 
