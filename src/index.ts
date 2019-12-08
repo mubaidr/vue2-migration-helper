@@ -1,5 +1,6 @@
 import traverse from '@babel/traverse'
-import { getAst } from './lib/ast-utilities'
+import { getAst, getCode } from './lib/ast-utilities'
+import { getImportsNode } from './lib/imports'
 import { getTemplate } from './lib/template-utilities'
 
 // TODO: add reactive properties definitions
@@ -19,7 +20,7 @@ export async function vue2MigrationHelper(options: {
 
   traverse(ast, {
     Program: path => {
-      // path.node.body.unshift(getImportsNode())
+      path.node.body.unshift(getImportsNode())
     },
     ExportDefaultDeclaration: path => {
       const declaration = path.node.declaration
@@ -30,7 +31,7 @@ export async function vue2MigrationHelper(options: {
     }
   })
 
-  // console.log('TCL: code \r\n', getCode(ast))
+  console.log('TCL: code \r\n', getCode(ast))
 }
 
 // testing code

@@ -5,13 +5,7 @@ import { Node } from '@babel/types'
 export function getAst(source: string) {
   const ast = parse(source, {
     sourceType: 'module',
-    plugins: [
-      'typescript',
-      'dynamicImport',
-      'objectRestSpread',
-      'logicalAssignment',
-      'estree'
-    ]
+    plugins: ['typescript']
   })
 
   return ast
