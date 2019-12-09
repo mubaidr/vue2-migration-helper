@@ -1,8 +1,8 @@
 import { types } from '@babel/core'
 
 function getImportForKey(name: string) {
-  let vueImports = ['watch', 'computed']
-  let vue2Hooks = [
+  const vueImports = ['watch', 'computed']
+  const vue2Hooks = [
     // 'beforeCreate',
     // 'created',
     'beforeMount',
@@ -33,17 +33,15 @@ function prepareimportSpecifiers(
   const { declaration } = exportDefaultDeclaration
 
   if (declaration.type === 'ObjectExpression') {
-    let key: types.Identifier
-
     declaration.properties.forEach(property => {
       if (
         property.type === 'ObjectMethod' ||
         property.type === 'ObjectProperty'
       ) {
-        let importKeyword = getImportForKey(property.key.name)
+        const importKeyword = getImportForKey(property.key.name)
 
         if (importKeyword) {
-          let importSpecifier = types.importSpecifier(
+          const importSpecifier = types.importSpecifier(
             types.identifier(importKeyword),
             types.identifier(importKeyword)
           )
@@ -82,8 +80,4 @@ export function addImports(
   )
 
   ast.program.body.unshift(importStatements)
-}
-
-export default {
-  addImports
 }

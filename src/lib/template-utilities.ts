@@ -17,5 +17,3 @@ export async function getTemplate(path: string) {
     style: template.root.style.join('')
   }
 }
-
-export default { getTemplate }

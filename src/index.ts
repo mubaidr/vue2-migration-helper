@@ -1,8 +1,9 @@
 import { types } from '@babel/core'
 import {
-  extractExportDefaultDeclaration,
+  addSetupMethod,
   getAst,
-  getCode
+  getCode,
+  getExportDefault
 } from './lib/ast-utilities'
 import { addImports } from './lib/generators/imports'
 import { getTemplate } from './lib/template-utilities'
@@ -20,11 +21,16 @@ export async function vue2MigrationHelper(options: {
 }): Promise<void> {
   const originalTemplate = await getTemplate(options.path)
   const originalAst = getAst(originalTemplate.script)
-  const outputAst = types.clone(originalAst)
-  const exportDefaultDeclaration = extractExportDefaultDeclaration(outputAst)
+  const outputAst = types.cloneDeep(originalAst)
+  const exportDefualt = getExportDefault(originalAst)
+
+  // add & return setup method
+  addSetupMethod(outputAst)
 
   // add vue3 imports
-  addImports(outputAst, exportDefaultDeclaration)
+  addImports(outputAst, exportDefualt)
+
+  // convert data to reactive properties
 
   // update component body
   console.log('TCL: code \r\n', getCode(outputAst))
