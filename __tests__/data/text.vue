@@ -31,12 +31,12 @@ export default {
   },
 
   methods: {
+    ...[function some() {}, function other() {}],
+
     logOne() {
       console.log(this.one)
     }
-  },
-
-  ...[function some() {}, function other() {}]
+  }
 }
 </script>
 

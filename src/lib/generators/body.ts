@@ -1,40 +1,67 @@
-import { NodePath, types } from '@babel/core'
+import { types } from '@babel/core'
 
-export function addBody(path: NodePath) {
-  // clone
-  const declaration: types.ObjectExpression = JSON.parse(
-    JSON.stringify(path.node.declaration)
-  )
+const vue2Hooks = [
+  // 'beforeCreate',
+  // 'created',
+  'beforeMount',
+  'mounted',
+  'beforeUpdated',
+  'updated',
+  'beforeDestroy',
+  'destroyed'
+]
 
-  path.node.declaration = types.objectExpression([])
+export function addBody(
+  ast: types.File,
+  exportDefaultDeclaration: types.ExportDefaultDeclaration
+) {
+  const declaration = exportDefaultDeclaration.declaration
 
-  if (!types.isObjectExpression(declaration)) return
+  if (declaration.type !== 'ObjectExpression') {
+    throw new Error('Unidentified declaration...')
+  }
 
   const properties = declaration.properties
 
-  properties.forEach(property => {
+  for (let i = 0; i < properties.length; i += 1) {
+    const property = properties[i]
     let key: types.Identifier
 
-    switch (property.type) {
-      case 'ObjectMethod':
-        key = property.key
-        sections.push(key.name)
-        console.log(key.name)
-        break
-      case 'ObjectProperty':
-        key = property.key
-        sections.push(key.name)
-        console.log(key.name)
-        break
-      case 'SpreadElement':
-        if (property.argument.type === 'ArrayExpression') {
-          property.argument.elements.forEach(element => {
-            if (types.isFunctionExpression(element)) {
-              console.log(element.id?.name)
-            }
-          })
-        }
-        break
+    if (property.type === 'ObjectMethod') {
+      key = property.key
+
+      if (vue2Hooks.includes(key.name)) {
+        // hooks
+
+        continue
+      }
+
+      if (key.name === 'data') {
+        // reactive properties
+
+        continue
+      }
+
+      continue
     }
-  })
+
+    if (property.type === 'ObjectProperty') {
+      key = property.key
+
+      switch (key.name) {
+        case 'methods':
+          break
+        case 'computed':
+          break
+        case 'watch':
+        default:
+          break
+      }
+
+      continue
+    }
+
+    // not required
+    // if (property.type === 'SpreadElement') {}
+  }
 }

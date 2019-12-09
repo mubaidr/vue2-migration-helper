@@ -1,11 +1,8 @@
 import { types } from '@babel/core'
-import {
-  addSetupMethod,
-  getAst,
-  getCode,
-  getExportDefault
-} from './lib/ast-utilities'
+import { getAst, getCode, getExportDefault } from './lib/ast-utilities'
+import { addBody } from './lib/generators/body'
 import { addImports } from './lib/generators/imports'
+import { addSetupMethod } from './lib/generators/setupMethod'
 import { getTemplate } from './lib/template-utilities'
 
 // TODO: add reactive properties definitions
@@ -22,15 +19,16 @@ export async function vue2MigrationHelper(options: {
   const originalTemplate = await getTemplate(options.path)
   const originalAst = getAst(originalTemplate.script)
   const outputAst = types.cloneDeep(originalAst)
-  const exportDefualt = getExportDefault(originalAst)
+  const exportDefault = getExportDefault(originalAst)
+
+  // add vue3 imports
+  addImports(outputAst, exportDefault)
 
   // add & return setup method
   addSetupMethod(outputAst)
 
-  // add vue3 imports
-  addImports(outputAst, exportDefualt)
-
-  // convert data to reactive properties
+  // add body
+  addBody(outputAst, exportDefault)
 
   // update component body
   console.log('TCL: code \r\n', getCode(outputAst))
