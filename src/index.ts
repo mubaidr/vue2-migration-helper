@@ -1,6 +1,5 @@
-import { NodePath, types } from '@babel/core'
-import traverse from '@babel/traverse'
-import { getAst } from './lib/ast-utilities'
+import { types } from '@babel/core'
+import { getAst, getCode } from './lib/ast-utilities'
 import { addImports } from './lib/generators/imports'
 import { getTemplate } from './lib/template-utilities'
 
@@ -17,24 +16,21 @@ export async function vue2MigrationHelper(options: {
 }): Promise<void> {
   const originalTemplate = await getTemplate(options.path)
   const originalAst = getAst(originalTemplate.script)
-  // program and export default reference
-  const outputAst = types.file(types.program([]), [], [])
-  let exportDefaultDeclaration: NodePath<types.ExportDefaultDeclaration>
+  const outputAst = types.clone(originalAst)
 
-  // copy export node
-  traverse(originalAst, {
-    ExportDefaultDeclaration: path => {
-      // exportDefaultDeclaration = JSON.parse(JSON.stringify(path))
-    }
+  // extract export declaration
+  const exportIndex = originalAst.program.body.findIndex(node => {
+    return node.type === 'ExportDefaultDeclaration'
   })
+  const exportDefaultDeclaration = originalAst.program.body.splice(exportIndex)
 
-  // add vue 3 imports
+  console.log(exportDefaultDeclaration)
+
+  // add vue3 imports
   addImports(outputAst)
 
-  console.log(originalAst, outputAst)
-
   // update component body
-  // console.log('TCL: code \r\n', getCode(originalAst))
+  console.log('TCL: code \r\n', getCode(outputAst))
 }
 
 // testing code

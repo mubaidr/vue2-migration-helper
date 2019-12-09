@@ -20,7 +20,7 @@ export function addImports(ast: types.File) {
     types.stringLiteral('vue')
   )
 
-  // ast.node.body.unshift(importStatements)
+  ast.program.body.unshift(importStatements)
 }
 
 export default {
