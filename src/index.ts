@@ -31,7 +31,7 @@ export async function vue2MigrationHelper(options: {
   addBody(outputAst, exportDefault)
 
   // update component body
-  console.log('TCL: code \r\n', getCode(outputAst))
+  console.log('\r\n\r\nTCL: code \r\n\r\n', getCode(outputAst))
 }
 
 // testing code

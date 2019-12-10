@@ -8,12 +8,13 @@ Features:
 
 - [x] add `setup` method
 - [x] add required vue `imports`
-- [ ] update `data` properties
-- [ ] update `watch` syntax
+- [x] update `data` properties
 - [ ] update `computed` syntax
+- [ ] update `watch` syntax
 - [ ] integrate `methods` directly into setup
 - [ ] convert `props` syntax
 - [ ] replace `this` usage with new `context` parameter
 - [ ] update `lifecycle` hooks and remove deperecated lifecycle hooks
+- [ ] update `this.$refs` usage
 
 missing something?

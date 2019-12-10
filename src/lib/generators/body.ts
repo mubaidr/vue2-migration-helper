@@ -35,6 +35,7 @@ export function addBody(
 
       switch (key.name) {
         case 'methods':
+          // console.log(property)
           break
         case 'computed':
           break
