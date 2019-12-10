@@ -10,7 +10,7 @@ export function addSetupMethod(ast: types.File) {
           types.objectMethod(
             'method',
             types.identifier('setup'),
-            [],
+            [types.identifier('props'), types.identifier('context')],
             types.blockStatement([])
           )
         ])
