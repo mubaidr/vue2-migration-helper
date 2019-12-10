@@ -1,6 +1,10 @@
 import { types } from '@babel/core'
 import { vue2Hooks } from '../vue2'
+import { addComputed } from './sections/computed'
 import { addData } from './sections/data'
+import { addHooks } from './sections/hooks'
+import { addMethods } from './sections/methods'
+import { addWatches } from './sections/watch'
 
 export function addBody(
   ast: types.File,
@@ -17,7 +21,7 @@ export function addBody(
 
       if (vue2Hooks.includes(key.name)) {
         // hooks
-
+        addHooks(ast, property)
         continue
       }
 
@@ -35,12 +39,13 @@ export function addBody(
 
       switch (key.name) {
         case 'methods':
-          // console.log(property)
+          addMethods(ast, property)
           break
         case 'computed':
+          addComputed(ast, property)
           break
         case 'watch':
-        default:
+          addWatches(ast, property)
           break
       }
 

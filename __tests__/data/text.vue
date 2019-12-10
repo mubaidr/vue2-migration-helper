@@ -9,7 +9,7 @@ export default {
   props: {
     title: String,
     likes: Number,
-    callback: Function,
+    callback: Function
   },
 
   data() {
@@ -41,7 +41,11 @@ export default {
 
     logOne() {
       console.log(this.one)
-    }
+    },
+
+    logTwo: function() {},
+
+    logThree: () => {}
   }
 }
 </script>
