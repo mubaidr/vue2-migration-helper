@@ -15,6 +15,36 @@ export function getCode(ast: types.File) {
   return generator(ast, {}).code
 }
 
+export function getExportDefault(ast: types.File) {
+  const statement = ast.program.body.find(s => {
+    return types.isExportDefaultDeclaration(s)
+  }) as types.ExportDefaultDeclaration
+
+  return statement
+}
+
+export function getSetupMethod(ast: types.File) {
+  const statement = ast.program.body.find(s => {
+    return types.isExportDefaultDeclaration(s)
+  }) as types.ExportDefaultDeclaration
+
+  const declaration = statement.declaration as types.ObjectExpression
+  const properties = declaration.properties as types.ObjectMethod[]
+  const setups = properties.filter(prop => {
+    if (types.isObjectMethod(prop) || types.isObjectProperty(prop)) {
+      const key = prop.key as types.Identifier
+
+      if (key.name === 'setup') {
+        return true
+      }
+    }
+
+    return false
+  })
+
+  return setups[0]
+}
+
 export function addSetupMethod(ast: types.File) {
   for (let i = 0; i < ast.program.body.length; i += 1) {
     const statement = ast.program.body[i]
@@ -36,10 +66,4 @@ export function addSetupMethod(ast: types.File) {
   }
 }
 
-export function getExportDefault(ast: types.File) {
-  const statement = ast.program.body.find(s => {
-    return types.isExportDefaultDeclaration(s)
-  }) as types.ExportDefaultDeclaration
-
-  return statement
-}
+export function insertIntoSetupMethod(node: any, index: number) {}

@@ -15,4 +15,5 @@ Features:
 - [ ] convert `props` syntax
 - [ ] replace `this` usage with new `context` parameter
 - [ ] update `lifecycle` hooks and remove deperecated lifecycle hooks
-- missing something?
+
+missing something?

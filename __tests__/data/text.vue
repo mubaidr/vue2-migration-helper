@@ -6,6 +6,12 @@
 const zero = {}
 
 export default {
+  props: {
+    title: String,
+    likes: Number,
+    callback: Function,
+  },
+
   data() {
     return {
       one: true,
