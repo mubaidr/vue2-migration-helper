@@ -1,19 +1,8 @@
 import { types } from '@babel/core'
+import { vue2Hooks, vue2Imports } from '../vue2'
 
 function getImportForKey(name: string) {
-  const vueImports = ['watch', 'computed']
-  const vue2Hooks = [
-    // 'beforeCreate',
-    // 'created',
-    'beforeMount',
-    'mounted',
-    'beforeUpdated',
-    'updated',
-    'beforeDestroy',
-    'destroyed'
-  ]
-
-  if (vueImports.includes(name)) {
+  if (vue2Imports.includes(name)) {
     return name
   }
 
@@ -30,27 +19,22 @@ function prepareimportSpecifiers(
   exportDefaultDeclaration: types.ExportDefaultDeclaration
 ) {
   const importSpecifiers: types.ImportSpecifier[] = []
-  const { declaration } = exportDefaultDeclaration
+  const declaration = exportDefaultDeclaration.declaration as types.ObjectExpression
 
-  if (declaration.type === 'ObjectExpression') {
-    declaration.properties.forEach(property => {
-      if (
-        property.type === 'ObjectMethod' ||
-        property.type === 'ObjectProperty'
-      ) {
-        const importKeyword = getImportForKey(property.key.name)
+  declaration.properties.forEach(property => {
+    if (types.isObjectMethod(property) || types.isObjectProperty(property)) {
+      const importKeyword = getImportForKey(property.key.name)
 
-        if (importKeyword) {
-          const importSpecifier = types.importSpecifier(
-            types.identifier(importKeyword),
-            types.identifier(importKeyword)
-          )
+      if (importKeyword) {
+        const importSpecifier = types.importSpecifier(
+          types.identifier(importKeyword),
+          types.identifier(importKeyword)
+        )
 
-          importSpecifiers.push(importSpecifier)
-        }
+        importSpecifiers.push(importSpecifier)
       }
-    })
-  }
+    }
+  })
 
   // default imports
   importSpecifiers.unshift(

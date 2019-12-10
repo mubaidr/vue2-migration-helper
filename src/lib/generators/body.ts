@@ -1,34 +1,19 @@
 import { types } from '@babel/core'
-
-const vue2Hooks = [
-  // 'beforeCreate',
-  // 'created',
-  'beforeMount',
-  'mounted',
-  'beforeUpdated',
-  'updated',
-  'beforeDestroy',
-  'destroyed'
-]
+import { vue2Hooks } from '../vue2'
+import { addData } from './sections/data'
 
 export function addBody(
   ast: types.File,
   exportDefaultDeclaration: types.ExportDefaultDeclaration
 ) {
-  const declaration = exportDefaultDeclaration.declaration
-
-  if (declaration.type !== 'ObjectExpression') {
-    throw new Error('Unidentified declaration...')
-  }
-
+  const declaration = exportDefaultDeclaration.declaration as types.ObjectExpression
   const properties = declaration.properties
 
   for (let i = 0; i < properties.length; i += 1) {
     const property = properties[i]
-    let key: types.Identifier
 
-    if (property.type === 'ObjectMethod') {
-      key = property.key
+    if (types.isObjectMethod(property)) {
+      const key = property.key as types.Identifier
 
       if (vue2Hooks.includes(key.name)) {
         // hooks
@@ -38,15 +23,15 @@ export function addBody(
 
       if (key.name === 'data') {
         // reactive properties
-
+        addData(ast, property)
         continue
       }
 
       continue
     }
 
-    if (property.type === 'ObjectProperty') {
-      key = property.key
+    if (types.isObjectProperty(property)) {
+      const key = property.key as types.Identifier
 
       switch (key.name) {
         case 'methods':

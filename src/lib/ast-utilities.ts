@@ -19,7 +19,7 @@ export function addSetupMethod(ast: types.File) {
   for (let i = 0; i < ast.program.body.length; i += 1) {
     const statement = ast.program.body[i]
 
-    if (statement.type === 'ExportDefaultDeclaration') {
+    if (types.isExportDefaultDeclaration(statement)) {
       ast.program.body[i] = types.exportDefaultDeclaration(
         types.objectExpression([
           types.objectMethod(
@@ -38,12 +38,8 @@ export function addSetupMethod(ast: types.File) {
 
 export function getExportDefault(ast: types.File) {
   const statement = ast.program.body.find(s => {
-    return s.type === 'ExportDefaultDeclaration'
-  })
+    return types.isExportDefaultDeclaration(s)
+  }) as types.ExportDefaultDeclaration
 
-  if (types.isExportDefaultDeclaration(statement)) {
-    return statement
-  } else {
-    return types.exportDefaultDeclaration(types.objectExpression([]))
-  }
+  return statement
 }
