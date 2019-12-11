@@ -21,7 +21,13 @@ export default {
   },
 
   watch: {
-    two(val) {
+    oneWatch(val) {
+      console.log(val)
+    },
+    twoWatch: val => {
+      console.log(val)
+    },
+    threeWatch: function(val) {
       console.log(val)
     }
   },
@@ -29,7 +35,17 @@ export default {
   computed: {
     oneComputed() {
       return !this.one
+    },
+    twoComputed: () => {
+      return !this.one
+    },
+    threeComputed: function() {
+      return !this.one
     }
+  },
+
+  created() {
+    console.log('created')
   },
 
   mounted() {
@@ -37,15 +53,26 @@ export default {
   },
 
   methods: {
-    ...[function some() {}, function other() {}],
+    ...[
+      function fourMethod() {
+        console.log('fourMethod')
+      },
+      function fiveMethod() {
+        console.log('fiveMethod')
+      }
+    ],
 
-    logOne() {
-      console.log(this.one)
+    oneMethod() {
+      console.log('oneMethod')
     },
 
-    logTwo: function() {},
+    twoMethod: function() {
+      console.log('twoMethod')
+    },
 
-    logThree: () => {}
+    threeMethod: () => {
+      console.log('threeMethod')
+    }
   }
 }
 </script>
