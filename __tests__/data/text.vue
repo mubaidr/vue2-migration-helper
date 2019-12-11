@@ -68,7 +68,7 @@ export default {
     },
 
     twoMethod: function() {
-      this.$refs.templateRef.innerHTML = '<span>html</span>'
+      this.$refs.templateRef.innerHTML = 'html'
       console.log('twoMethod')
     },
 

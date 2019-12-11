@@ -5,7 +5,8 @@ import { parse } from '@babel/parser'
 export function getAst(source: string) {
   const ast = parse(source, {
     sourceType: 'module',
-    plugins: ['typescript']
+    plugins: ['typescript'],
+    tokens: true
   })
 
   return ast
