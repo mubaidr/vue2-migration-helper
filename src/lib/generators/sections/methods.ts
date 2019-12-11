@@ -5,6 +5,7 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
   const setupMethodBody = getSetupMethod(ast).body.body
   const MethodsProps = section.value as types.ObjectExpression
   const properties = MethodsProps.properties
+  const toExportList = []
 
   for (let i = 0; i < properties.length; i += 1) {
     const property = properties[i]
@@ -19,6 +20,7 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
         )
       ])
 
+      toExportList.push(key.name)
       setupMethodBody.splice(-1, 0, MethodsStatement)
 
       continue
@@ -33,6 +35,7 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
           types.variableDeclarator(types.identifier(key.name), value)
         ])
 
+        toExportList.push(key.name)
         setupMethodBody.splice(-1, 0, MethodsStatement)
       }
 
@@ -44,6 +47,7 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
           )
         ])
 
+        toExportList.push(key.name)
         setupMethodBody.splice(-1, 0, MethodsStatement)
       }
     }
@@ -62,8 +66,24 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
           )
         ])
 
+        toExportList.push(key.name)
         setupMethodBody.splice(-1, 0, MethodsStatement)
       })
     }
   }
+
+  // export computed properties
+  const returnStatement = setupMethodBody.slice(-1)[0] as types.ReturnStatement
+  const argument = returnStatement.argument as types.ObjectExpression
+
+  toExportList.forEach(exportItem => {
+    argument.properties.push(
+      types.objectProperty(
+        types.identifier(exportItem),
+        types.identifier(exportItem)
+      )
+    )
+  })
+
+  // TODO: update method calls
 }

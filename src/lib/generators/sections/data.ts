@@ -25,4 +25,6 @@ export function addData(ast: types.File, section: types.ObjectMethod) {
 
   setupMethodBody.push(reactiveStatement)
   setupMethodBody.push(returnStatement)
+
+  //TODO: update data variable usage
 }

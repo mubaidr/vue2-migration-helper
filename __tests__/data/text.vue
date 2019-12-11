@@ -63,10 +63,12 @@ export default {
     ],
 
     oneMethod() {
+      const html = this.$refs.templateRef.innerHTML
       console.log('oneMethod')
     },
 
     twoMethod: function() {
+      this.$refs.templateRef.innerHTML = '<span>html</span>'
       console.log('twoMethod')
     },
 

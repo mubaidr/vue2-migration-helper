@@ -12,8 +12,8 @@ Features:
 - [x] update `computed` syntax
 - [x] update `watch` syntax
 - [x] integrate `methods` directly into setup
-- [ ] replace `this` usage with new `context` parameter
 - [ ] update template `ref` usage
+- [ ] replace `this` usage with new `context` parameter
 - [ ] convert `props` syntax
 - [ ] `component` registration
 - [ ] update `lifecycle` hooks and remove deperecated lifecycle hooks
