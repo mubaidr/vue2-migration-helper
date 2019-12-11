@@ -5,14 +5,6 @@ import { addImports } from './lib/generators/imports'
 import { addSetupMethod } from './lib/generators/setupMethod'
 import { getTemplate } from './lib/template-utilities'
 
-// TODO: add reactive properties definitions
-// TODO: convert computed syntax
-// TODO: convert watch syntax
-// TODO: convert methods syntax
-// TODO: convert life-cycle hooks
-// TODO: convert props syntax
-// TODO: update this.$event usage
-
 export async function vue2MigrationHelper(options: {
   path: string
 }): Promise<void> {

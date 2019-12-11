@@ -11,11 +11,11 @@ Features:
 - [x] update `data` properties
 - [x] update `computed` syntax
 - [x] update `watch` syntax
-- [ ] integrate `methods` directly into setup
-- [ ] convert `props` syntax
+- [x] integrate `methods` directly into setup
 - [ ] replace `this` usage with new `context` parameter
+- [ ] update template `ref` usage
+- [ ] convert `props` syntax
+- [ ] `component` registration
 - [ ] update `lifecycle` hooks and remove deperecated lifecycle hooks
-- [ ] update `this.$refs` usage
-- [ ] component registration
 
 missing something?

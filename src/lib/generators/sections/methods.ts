@@ -15,9 +15,7 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
       const MethodsStatement = types.variableDeclaration('const', [
         types.variableDeclarator(
           types.identifier(key.name),
-          types.callExpression(types.identifier('watch'), [
-            types.arrowFunctionExpression(property.params, property.body)
-          ])
+          types.arrowFunctionExpression(property.params, property.body)
         )
       ])
 
@@ -32,10 +30,7 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
 
       if (types.isArrowFunctionExpression(value)) {
         const MethodsStatement = types.variableDeclaration('const', [
-          types.variableDeclarator(
-            types.identifier(key.name),
-            types.callExpression(types.identifier('watch'), [value])
-          )
+          types.variableDeclarator(types.identifier(key.name), value)
         ])
 
         setupMethodBody.splice(-1, 0, MethodsStatement)
@@ -45,9 +40,7 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
         const MethodsStatement = types.variableDeclaration('const', [
           types.variableDeclarator(
             types.identifier(key.name),
-            types.callExpression(types.identifier('watch'), [
-              types.arrowFunctionExpression(value.params, value.body)
-            ])
+            types.arrowFunctionExpression(value.params, value.body, value.async)
           )
         ])
 
@@ -55,6 +48,22 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
       }
     }
 
-    // if (types.isSpreadElement(property)) {}
+    if (types.isSpreadElement(property)) {
+      const argument = property.argument as types.ArrayExpression
+      const values = argument.elements as types.FunctionExpression[]
+
+      values.forEach(value => {
+        const key = value.id as types.Identifier
+
+        const MethodsStatement = types.variableDeclaration('const', [
+          types.variableDeclarator(
+            types.identifier(key.name),
+            types.arrowFunctionExpression(value.params, value.body, value.async)
+          )
+        ])
+
+        setupMethodBody.splice(-1, 0, MethodsStatement)
+      })
+    }
   }
 }
