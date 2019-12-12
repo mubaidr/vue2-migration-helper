@@ -1,4 +1,5 @@
 import { types } from '@babel/core'
+import { updateThisCalls } from '../transformers/thisCalls'
 import { vue2Hooks } from '../vue2'
 import { addComputed } from './sections/computed'
 import { addData } from './sections/data'
@@ -12,6 +13,8 @@ export function addBody(
 ) {
   const declaration = exportDefaultDeclaration.declaration as types.ObjectExpression
   const properties = declaration.properties
+
+  let computedPropsList: string[] = []
 
   for (let i = 0; i < properties.length; i += 1) {
     const property = properties[i]
@@ -42,7 +45,7 @@ export function addBody(
           addMethods(ast, property)
           break
         case 'computed':
-          addComputed(ast, property)
+          computedPropsList = addComputed(ast, property)
           break
         case 'watch':
           addWatches(ast, property)
@@ -55,4 +58,6 @@ export function addBody(
     // not required
     // if (property.type === 'SpreadElement') {}
   }
+
+  updateThisCalls(ast, computedPropsList, 'this.')
 }

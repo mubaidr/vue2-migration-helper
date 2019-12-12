@@ -65,15 +65,20 @@ export default {
     oneMethod() {
       const html = this.$refs.templateRef.innerHTML
       console.log('oneMethod')
+      console.log(this.oneComputed)
     },
 
     twoMethod: function() {
       this.$refs.templateRef.innerHTML = 'html'
       console.log('twoMethod')
+      console.log(this.twoComputed)
+      this.oneMethod()
     },
 
     threeMethod: () => {
       console.log('threeMethod')
+      console.log(this.threeComputed)
+      this.twoMethod()
     }
   }
 }

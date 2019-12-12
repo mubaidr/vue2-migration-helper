@@ -5,7 +5,7 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
   const setupMethodBody = getSetupMethod(ast).body.body
   const computedProps = section.value as types.ObjectExpression
   const properties = computedProps.properties
-  const toExportList = []
+  const computedPropsList = []
 
   for (let i = 0; i < properties.length; i += 1) {
     const property = properties[i]
@@ -22,7 +22,7 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
         )
       ])
 
-      toExportList.push(key.name)
+      computedPropsList.push(key.name)
       setupMethodBody.splice(1, 0, computedStatement)
 
       continue
@@ -40,7 +40,7 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
           )
         ])
 
-        toExportList.push(key.name)
+        computedPropsList.push(key.name)
         setupMethodBody.splice(1, 0, computedStatement)
       }
 
@@ -54,7 +54,7 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
           )
         ])
 
-        toExportList.push(key.name)
+        computedPropsList.push(key.name)
         setupMethodBody.splice(1, 0, computedStatement)
       }
     }
@@ -66,7 +66,7 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
   const returnStatement = setupMethodBody.slice(-1)[0] as types.ReturnStatement
   const argument = returnStatement.argument as types.ObjectExpression
 
-  toExportList.forEach(exportItem => {
+  computedPropsList.forEach(exportItem => {
     argument.properties.push(
       types.objectProperty(
         types.identifier(exportItem),
@@ -75,5 +75,5 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
     )
   })
 
-  // TODO: update computed prop usage
+  return computedPropsList
 }

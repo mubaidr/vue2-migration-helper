@@ -15,7 +15,7 @@ export function updateTemplateRefs(ast: types.File) {
     AssignmentExpression(nodePath) {
       const node = nodePath.node
 
-      console.log(node.left)
+      // console.log(node.left)
     }
     // MemberExpression(nodePath) {
     //   const property = nodePath.node.property as types.Identifier

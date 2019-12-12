@@ -5,7 +5,6 @@ import { addImports } from './lib/generators/imports'
 import { addSetupMethod } from './lib/generators/setupMethod'
 import { getTemplate } from './lib/template-utilities'
 import { updateTemplateRefs } from './lib/transformers/template-refs'
-import { updateThisCalls } from './lib/transformers/thisCalls'
 
 export async function vue2MigrationHelper(options: {
   path: string
@@ -28,7 +27,7 @@ export async function vue2MigrationHelper(options: {
   updateTemplateRefs(outputAst)
 
   // replace "this" calls
-  updateThisCalls(outputAst)
+  // updateThisCalls(outputAst)
 
   // update component body
   console.log('\r\n\r\nTCL: code \r\n\r\n', getCode(outputAst))
