@@ -27,8 +27,17 @@ export function addData(ast: types.File, section: types.ObjectMethod) {
   setupMethodBody.push(reactiveStatement)
   setupMethodBody.push(returnStatement)
 
-  // extract identifier names into dataPropsList from argument
-  console.log(argument)
+  // collect identifiers
+  const properties = argument.properties
+
+  for (let i = 0; i < properties.length; i += 1) {
+    const property = properties[i]
+
+    if (types.isObjectProperty(property)) {
+      const key = property.key as types.Identifier
+      dataPropsList.push(key.name)
+    }
+  }
 
   return dataPropsList
 }
