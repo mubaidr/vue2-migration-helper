@@ -1,31 +1,15 @@
 import { types } from '@babel/core'
-import traverse from '@babel/traverse'
-import { getSetupMethod } from '../ast-utilities'
+import { getAst, getCode } from '../ast-utilities'
 
 export function updateTemplateRefs(ast: types.File) {
-  const setupMethodBody = getSetupMethod(ast).body.body
+  const code = getCode(ast)
 
-  traverse(ast, {
-    enter(nodePath) {
-      const node = nodePath.node
+  // search using regExp
+  // keep backreference
+  // add backreference to setup body
 
-      // if(path.node)
-      // console.log(node)
-    },
-    AssignmentExpression(nodePath) {
-      const node = nodePath.node
+  // const regExp = new RegExp(preString + item + postString, 'gi')
+  // code = code.replace(regExp, preAppendString + item + postAppendString)
 
-      // console.log(node.left)
-    }
-    // MemberExpression(nodePath) {
-    //   const property = nodePath.node.property as types.Identifier
-    //   const object = nodePath.node.object as types.Node
-
-    //   if (!property.name.includes('$refs')) return
-
-    //   console.log(property.name, object)
-
-    //   // nodePath.node = types.identifier(name.substr(0, 10))
-    // }
-  })
+  return getAst(code)
 }

@@ -1,7 +1,5 @@
 import { types } from '@babel/core'
-import generate from '@babel/generator'
-import { getAst } from '../ast-utilities'
-// import { getSetupMethod } from '../ast-utilities'
+import { getAst, getCode } from '../ast-utilities'
 
 export function updateThisCalls(
   ast: types.File,
@@ -11,11 +9,20 @@ export function updateThisCalls(
   preAppendString = '',
   postAppendString = ''
 ) {
-  let code = generate(ast).code
+  let code = getCode(ast)
 
   list.forEach(item => {
-    const regExp = new RegExp(preString + item + postString, 'gi')
-    code = code.replace(regExp, preAppendString + item + postAppendString)
+    const regExp = new RegExp(
+      `(${preString + item + postString})[;|(|)|{|}|[|\]|\s]`,
+      'gmi'
+    )
+
+    code = code.replace(regExp, match => {
+      return match.replace(
+        preString + item + postString,
+        preAppendString + item + postAppendString
+      )
+    })
   })
 
   return getAst(code)
