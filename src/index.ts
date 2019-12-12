@@ -11,7 +11,7 @@ export async function vue2MigrationHelper(options: {
 }): Promise<void> {
   const originalTemplate = await getTemplate(options.path)
   const originalAst = getAst(originalTemplate.script)
-  const outputAst = types.cloneDeep(originalAst)
+  let outputAst = types.cloneDeep(originalAst)
   const exportDefault = getExportDefault(originalAst)
 
   // add vue3 imports
@@ -21,7 +21,7 @@ export async function vue2MigrationHelper(options: {
   addSetupMethod(outputAst)
 
   // add body
-  addBody(outputAst, exportDefault)
+  outputAst = addBody(outputAst, exportDefault)
 
   // update template refs
   updateTemplateRefs(outputAst)

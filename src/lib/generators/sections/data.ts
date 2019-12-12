@@ -5,6 +5,7 @@ export function addData(ast: types.File, section: types.ObjectMethod) {
   const dataReturnStatement = section.body.body[0] as types.ReturnStatement
   const argument = dataReturnStatement.argument as types.ObjectExpression
   const setupMethodBody = getSetupMethod(ast).body.body
+  const dataPropsList: string[] = []
 
   const reactiveStatement = types.variableDeclaration('const', [
     types.variableDeclarator(
@@ -26,5 +27,8 @@ export function addData(ast: types.File, section: types.ObjectMethod) {
   setupMethodBody.push(reactiveStatement)
   setupMethodBody.push(returnStatement)
 
-  //TODO: update data variable usage
+  // extract identifier names into dataPropsList from argument
+  console.log(argument)
+
+  return dataPropsList
 }

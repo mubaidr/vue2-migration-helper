@@ -14,11 +14,9 @@ export function updateThisCalls(
   let code = generate(ast).code
 
   list.forEach(item => {
-    console.log(preString + item + postString)
-
     const regExp = new RegExp(preString + item + postString, 'gi')
     code = code.replace(regExp, preAppendString + item + postAppendString)
   })
 
-  ast = getAst(code)
+  return getAst(code)
 }

@@ -14,6 +14,8 @@ export function addBody(
   const declaration = exportDefaultDeclaration.declaration as types.ObjectExpression
   const properties = declaration.properties
 
+  let dataPropsList: string[] = []
+  let methodsList: string[] = []
   let computedPropsList: string[] = []
 
   for (let i = 0; i < properties.length; i += 1) {
@@ -30,7 +32,7 @@ export function addBody(
 
       if (key.name === 'data') {
         // reactive properties
-        addData(ast, property)
+        dataPropsList = addData(ast, property)
         continue
       }
 
@@ -42,7 +44,7 @@ export function addBody(
 
       switch (key.name) {
         case 'methods':
-          addMethods(ast, property)
+          methodsList = addMethods(ast, property)
           break
         case 'computed':
           computedPropsList = addComputed(ast, property)
@@ -59,5 +61,9 @@ export function addBody(
     // if (property.type === 'SpreadElement') {}
   }
 
-  updateThisCalls(ast, computedPropsList, 'this.')
+  ast = updateThisCalls(ast, dataPropsList, 'this.', '', 'data.')
+  ast = updateThisCalls(ast, computedPropsList, 'this.')
+  ast = updateThisCalls(ast, methodsList, 'this.')
+
+  return ast
 }
