@@ -24,7 +24,7 @@ export async function vue2MigrationHelper(options: {
   outputAst = addBody(outputAst, exportDefault)
 
   // update template refs
-  updateTemplateRefs(outputAst)
+  outputAst = updateTemplateRefs(outputAst)
 
   // replace "this" calls
   // updateThisCalls(outputAst)

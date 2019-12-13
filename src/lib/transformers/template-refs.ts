@@ -2,14 +2,14 @@ import { types } from '@babel/core'
 import { getAst, getCode } from '../ast-utilities'
 
 export function updateTemplateRefs(ast: types.File) {
-  const code = getCode(ast)
+  let code = getCode(ast)
 
-  // search using regExp
-  // keep backreference
-  // add backreference to setup body
+  // const regExp = new RegExp(`(this.$refs.)[;|(|)|{|}|[|\]|\s]`, 'gmi')
 
-  // const regExp = new RegExp(preString + item + postString, 'gi')
-  // code = code.replace(regExp, preAppendString + item + postAppendString)
+  // code = code.replace(regExp, match => {
+  //   console.log(match)
+  //   return match.replace('this.$refs.', '')
+  // })
 
   return getAst(code)
 }
