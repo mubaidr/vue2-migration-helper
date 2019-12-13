@@ -1,5 +1,5 @@
 import { types } from '@babel/core'
-import { getSetupMethod } from '../../ast-utilities'
+import { getSetupMethod } from '../../astUtilities'
 
 export function addData(ast: types.File, section: types.ObjectMethod) {
   const dataReturnStatement = section.body.body[0] as types.ReturnStatement

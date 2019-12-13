@@ -1,14 +1,15 @@
 import { types } from '@babel/core'
-import { getAst, getCode, getExportDefault } from './lib/ast-utilities'
+import { getAst, getCode, getExportDefault } from './lib/astUtilities'
 import { addBody } from './lib/generators/body'
 import { addImports } from './lib/generators/imports'
 import { addSetupMethod } from './lib/generators/setupMethod'
-import { getTemplate } from './lib/template-utilities'
-import { updateTemplateRefs } from './lib/transformers/template-refs'
+import { getTemplate } from './lib/templateUtilities'
+import { updateTemplateRefs } from './lib/transformers/templateRefs'
+import { updateVueObjectReferences } from './lib/transformers/vueObjectReferences'
 
 export async function vue2MigrationHelper(options: {
   path: string
-}): Promise<void> {
+}): Promise<string> {
   const originalTemplate = await getTemplate(options.path)
   const originalAst = getAst(originalTemplate.script)
   let outputAst = types.cloneDeep(originalAst)
@@ -26,14 +27,16 @@ export async function vue2MigrationHelper(options: {
   // update template refs
   outputAst = updateTemplateRefs(outputAst)
 
-  // replace "this" calls
-  // updateThisCalls(outputAst)
+  // update vue object this references
+  outputAst = updateVueObjectReferences(outputAst)
 
-  // update component body
-  console.log('\r\n\r\nTCL: code \r\n\r\n', getCode(outputAst))
+  // return final code
+  return getCode(outputAst)
 }
 
 // testing code
 vue2MigrationHelper({
   path: './__tests__/data/text.vue'
+}).then(res => {
+  console.log(res)
 })

@@ -1,5 +1,5 @@
 import { types } from '@babel/core'
-import { getExportDefault } from '../../ast-utilities'
+import { getExportDefault } from '../../astUtilities'
 
 export function addProps(ast: types.File, property: types.ObjectProperty) {
   const exportDefault = getExportDefault(ast)

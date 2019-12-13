@@ -14,7 +14,7 @@ Updates vue2 SFCs (single file components) to vue3 composition api syntax.
 - [x] integrate `methods` directly into setup
 - [x] update template `ref` usage
 - [x] convert `props` syntax
-- [ ] replace `this` usage with new `context` parameter for \$events etc
+- [x] replace `this` usage with new `context` parameter for \$events etc
 - [ ] update `lifecycle` hooks and remove deperecated lifecycle hooks
 - [ ] `component` registration
 

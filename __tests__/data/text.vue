@@ -73,12 +73,15 @@ export default {
       console.log('twoMethod')
       console.log(this.twoComputed)
       this.oneMethod()
+      console.log(this.$router)
     },
 
     threeMethod: () => {
       console.log('threeMethod')
       console.log(this.threeComputed)
       this.twoMethod()
+
+      console.log(this.$store)
     }
   }
 }

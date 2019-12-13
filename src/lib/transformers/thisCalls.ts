@@ -1,5 +1,5 @@
 import { types } from '@babel/core'
-import { getAst, getCode } from '../ast-utilities'
+import { getAst, getCode } from '../astUtilities'
 
 export function updateThisCalls(
   ast: types.File,

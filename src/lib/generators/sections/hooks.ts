@@ -1,5 +1,5 @@
 import { types } from '@babel/core'
-import { getSetupMethod } from '../../ast-utilities'
+import { getSetupMethod } from '../../astUtilities'
 
 export function addHooks(ast: types.File, section: types.ObjectMethod) {
   const setupMethodBody = getSetupMethod(ast).body.body
