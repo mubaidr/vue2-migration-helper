@@ -95,12 +95,15 @@ export default {
       console.log('twoMethod')
       console.log(this.twoComputed)
       this.oneMethod()
+      console.log(this.$router)
     },
 
     threeMethod: () => {
       console.log('threeMethod')
       console.log(this.threeComputed)
       this.twoMethod()
+
+      console.log(this.$store)
     }
   }
 }
@@ -112,6 +115,12 @@ this script generates Vue SFC using composition API:
 import { ref, reacted, toRefs, watch, computed, onMounted } from 'vue'
 const zero = {}
 export default {
+  props: {
+    title: String,
+    likes: Number,
+    callback: Function
+  },
+
   setup(props, context) {
     const data = reactive({
       one: true,
@@ -137,6 +146,11 @@ export default {
     const oneWatch = watch(val => {
       console.log(val)
     })
+    console.log('created')
+
+    function mounted() {
+      console.log('mounted')
+    }
 
     const fourMethod = () => {
       console.log('fourMethod')
@@ -157,12 +171,14 @@ export default {
       console.log('twoMethod')
       console.log(twoComputed)
       oneMethod()
+      console.log(context.router)
     }
 
     const threeMethod = () => {
       console.log('threeMethod')
       console.log(threeComputed)
       twoMethod()
+      console.log(context.store)
     }
 
     return {
