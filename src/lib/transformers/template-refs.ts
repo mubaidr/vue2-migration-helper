@@ -20,7 +20,10 @@ export function updateTemplateRefs(ast: types.File) {
   ast = getAst(code)
 
   // addd ref(null) for each template ref
-  const setupMethod = getSetupMethod(ast)
+  const setupMethodBody = getSetupMethod(ast).body.body
+  const returnStatement = setupMethodBody.slice(-1)[0] as types.ReturnStatement
+  const argument = returnStatement.argument as types.ObjectExpression
+
   templateRefList.forEach(templateRef => {
     const templateRefStatement = types.variableDeclaration('const', [
       types.variableDeclarator(
@@ -29,7 +32,17 @@ export function updateTemplateRefs(ast: types.File) {
       )
     ])
 
-    setupMethod.body.body.splice(1, 0, templateRefStatement)
+    // declare template ref
+    // return template ref from setup body
+    setupMethodBody.splice(1, 0, templateRefStatement)
+    argument.properties.push(
+      types.objectProperty(
+        types.identifier(templateRef),
+        types.identifier(templateRef),
+        undefined,
+        true
+      )
+    )
   })
 
   return ast

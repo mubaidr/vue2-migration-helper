@@ -70,7 +70,9 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
     argument.properties.push(
       types.objectProperty(
         types.identifier(exportItem),
-        types.identifier(exportItem)
+        types.identifier(exportItem),
+        undefined,
+        true
       )
     )
   })
