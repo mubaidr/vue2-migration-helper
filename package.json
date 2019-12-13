@@ -54,7 +54,13 @@
   "engines": {
     "node": ">=8.9"
   },
-  "keywords": [],
+  "keywords": [
+    "composition",
+    "api",
+    "vue",
+    "typescript",
+    "javascript"
+  ],
   "license": "MIT",
   "main": "build/main/index.js",
   "module": "build/module/index.js",

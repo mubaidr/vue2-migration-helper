@@ -5,6 +5,7 @@ import { addComputed } from './sections/computed'
 import { addData } from './sections/data'
 import { addHooks } from './sections/hooks'
 import { addMethods } from './sections/methods'
+import { addProps } from './sections/props'
 import { addWatches } from './sections/watch'
 
 export function addBody(
@@ -43,6 +44,9 @@ export function addBody(
       const key = property.key as types.Identifier
 
       switch (key.name) {
+        case 'props':
+          addProps(ast, property)
+          break
         case 'methods':
           methodsList = addMethods(ast, property)
           break
