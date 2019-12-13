@@ -1,10 +1,10 @@
 # vue2-migration-helper
 
-Updates vue2 components to vue3 composition api syntax.
+Updates vue2 SFCs (single file components) to vue3 composition api syntax.
 
 (work in progress)
 
-Features:
+## Features
 
 - [x] add `setup` method
 - [x] add required vue `imports`
@@ -20,7 +20,7 @@ Features:
 
 missing something?
 
-Example:
+## Example
 
 For a Vue.js SFC (single file component) like this:
 
