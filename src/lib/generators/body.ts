@@ -1,6 +1,6 @@
 import { types } from '@babel/core'
 import { updateThisCalls } from '../transformers/thisCalls'
-import { vue2Hooks } from '../vue2'
+import { vue2Hooks, vue2HooksDeprecated } from '../vue2'
 import { addComputed } from './sections/computed'
 import { addData } from './sections/data'
 import { addHooks } from './sections/hooks'
@@ -25,7 +25,10 @@ export function addBody(
     if (types.isObjectMethod(property)) {
       const key = property.key as types.Identifier
 
-      if (vue2Hooks.includes(key.name)) {
+      if (
+        vue2Hooks.includes(key.name) ||
+        vue2HooksDeprecated.includes(key.name)
+      ) {
         // hooks
         addHooks(ast, property)
         continue
