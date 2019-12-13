@@ -167,14 +167,15 @@ export default {
 
     return {
       ...ref(data),
-      oneComputed: oneComputed,
-      twoComputed: twoComputed,
-      threeComputed: threeComputed,
-      fourMethod: fourMethod,
-      fiveMethod: fiveMethod,
-      oneMethod: oneMethod,
-      twoMethod: twoMethod,
-      threeMethod: threeMethod
+      oneComputed,
+      twoComputed,
+      threeComputed,
+      fourMethod,
+      fiveMethod,
+      oneMethod,
+      twoMethod,
+      threeMethod,
+      templateRef
     }
   }
 }
