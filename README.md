@@ -12,7 +12,7 @@ Updates vue2 SFCs (single file components) to vue3 composition api syntax.
 - [x] update `computed` syntax
 - [x] update `watch` syntax
 - [x] integrate `methods` directly into setup
-- [ ] update template `ref` usage
+- [x] update template `ref` usage
 - [ ] replace `this` usage with new `context` parameter for \$events etc
 - [ ] convert `props` syntax
 - [ ] `component` registration
