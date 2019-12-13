@@ -13,12 +13,13 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
     if (types.isObjectMethod(property)) {
       const key = property.key as types.Identifier
 
-      const MethodsStatement = types.variableDeclaration('const', [
-        types.variableDeclarator(
-          types.identifier(key.name),
-          types.arrowFunctionExpression(property.params, property.body)
-        )
-      ])
+      const MethodsStatement = types.functionDeclaration(
+        types.identifier(key.name),
+        property.params,
+        property.body,
+        undefined,
+        property.async
+      )
 
       methodsList.push(key.name)
       setupMethodBody.splice(-1, 0, MethodsStatement)
@@ -31,21 +32,28 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
       const value = property.value
 
       if (types.isArrowFunctionExpression(value)) {
-        const MethodsStatement = types.variableDeclaration('const', [
-          types.variableDeclarator(types.identifier(key.name), value)
-        ])
+        const body = value.body as types.BlockStatement
+
+        const MethodsStatement = types.functionDeclaration(
+          types.identifier(key.name),
+          value.params,
+          body,
+          undefined,
+          value.async
+        )
 
         methodsList.push(key.name)
         setupMethodBody.splice(-1, 0, MethodsStatement)
       }
 
       if (types.isFunctionExpression(value)) {
-        const MethodsStatement = types.variableDeclaration('const', [
-          types.variableDeclarator(
-            types.identifier(key.name),
-            types.arrowFunctionExpression(value.params, value.body, value.async)
-          )
-        ])
+        const MethodsStatement = types.functionDeclaration(
+          types.identifier(key.name),
+          value.params,
+          value.body,
+          undefined,
+          value.async
+        )
 
         methodsList.push(key.name)
         setupMethodBody.splice(-1, 0, MethodsStatement)
@@ -59,12 +67,13 @@ export function addMethods(ast: types.File, section: types.ObjectProperty) {
       values.forEach(value => {
         const key = value.id as types.Identifier
 
-        const MethodsStatement = types.variableDeclaration('const', [
-          types.variableDeclarator(
-            types.identifier(key.name),
-            types.arrowFunctionExpression(value.params, value.body, value.async)
-          )
-        ])
+        const MethodsStatement = types.functionDeclaration(
+          types.identifier(key.name),
+          value.params,
+          value.body,
+          undefined,
+          value.async
+        )
 
         methodsList.push(key.name)
         setupMethodBody.splice(-1, 0, MethodsStatement)

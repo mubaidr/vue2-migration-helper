@@ -113,7 +113,8 @@ this script generates Vue SFC using composition API:
 
 ```js
 import { ref, reacted, toRefs, watch, computed, onMounted } from 'vue'
-const zero = {}
+const zero = {} // comment
+
 export default {
   props: {
     title: String,
@@ -137,36 +138,35 @@ export default {
     const oneComputed = computed(() => {
       return !data.one
     })
-    const threeWatch = watch(val => {
+    watch(three, (a, b) => {
+      console.log(a, b)
+    })
+    watch(two, val => {
       console.log(val)
     })
-    const twoWatch = watch(val => {
-      console.log(val)
-    })
-    const oneWatch = watch(val => {
+    watch(one, val => {
       console.log(val)
     })
     console.log('created')
-
-    function mounted() {
+    onMounted(() => {
       console.log('mounted')
-    }
+    })
 
-    const fourMethod = () => {
+    function fourMethod() {
       console.log('fourMethod')
     }
 
-    const fiveMethod = () => {
+    function fiveMethod() {
       console.log('fiveMethod')
     }
 
-    const oneMethod = () => {
+    function oneMethod() {
       const html = templateRef.value.innerHTML
       console.log('oneMethod')
       console.log(oneComputed)
     }
 
-    const twoMethod = () => {
+    function twoMethod() {
       templateRef.value.innerHTML = 'html'
       console.log('twoMethod')
       console.log(twoComputed)
@@ -174,7 +174,7 @@ export default {
       console.log(context.router)
     }
 
-    const threeMethod = () => {
+    function threeMethod() {
       console.log('threeMethod')
       console.log(threeComputed)
       twoMethod()

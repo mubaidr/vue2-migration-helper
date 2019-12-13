@@ -7,13 +7,16 @@ export function addHooks(ast: types.File, section: types.ObjectMethod) {
   const key = section.key as types.Identifier
 
   if (vue2Hooks.includes(key.name)) {
+    let name = key.name
+    name = 'on' + name[0].toUpperCase() + name.substr(1)
+
     setupMethodBody.splice(
       -1,
       0,
-      types.functionDeclaration(
-        types.identifier(key.name),
-        section.params,
-        section.body
+      types.expressionStatement(
+        types.callExpression(types.identifier(name), [
+          types.arrowFunctionExpression(section.params, section.body)
+        ])
       )
     )
   }

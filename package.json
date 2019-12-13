@@ -108,6 +108,6 @@
     "version": "Bump package.json version, update CHANGELOG.md, tag release",
     "watch": "Watch and rebuild the project on save, then rerun relevant tests"
   },
-  "typings": "build/main/index.d.ts",
+  "typings": "build/main/src/index.d.ts",
   "version": "0.1.0"
 }

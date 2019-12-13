@@ -4,7 +4,7 @@
 
 <script>
 const zero = {}
-
+// comment
 export default {
   props: {
     title: String,
@@ -21,14 +21,14 @@ export default {
   },
 
   watch: {
-    oneWatch(val) {
+    one(val) {
       console.log(val)
     },
-    twoWatch: val => {
+    two: val => {
       console.log(val)
     },
-    threeWatch: function(val) {
-      console.log(val)
+    three: function(a, b) {
+      console.log(a, b)
     }
   },
 
