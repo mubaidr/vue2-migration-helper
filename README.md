@@ -109,57 +109,59 @@ export default {
 this script generates Vue SFC using composition API:
 
 ```js
-import { ref, reacted, toRefs, watch, computed, onMounted } from "vue";
-const zero = {};
+import { ref, reacted, toRefs, watch, computed, onMounted } from 'vue'
+const zero = {}
 export default {
   setup(props, context) {
     const data = reactive({
       one: true,
-      two: 2,
+      two: 2
+    })
     const twoComputed = computed(() => {
-      return !data.one;
-    });
+      return !data.one
+    })
     const oneComputed = computed(() => {
-      return !data.one;
-    });
+      return !data.one
+    })
     const threeWatch = watch(val => {
-      console.log(val);
-    });
+      console.log(val)
+    })
     const twoWatch = watch(val => {
-      console.log(val);
-    });
+      console.log(val)
+    })
     const oneWatch = watch(val => {
-      console.log(val);
-    });
+      console.log(val)
+    })
 
     const fourMethod = () => {
-      console.log('fourMethod');
-    };
+      console.log('fourMethod')
+    }
 
     const fiveMethod = () => {
-      console.log('fiveMethod');
-    };
+      console.log('fiveMethod')
+    }
 
     const oneMethod = () => {
-      const html = this.$refs.templateRef.innerHTML;
-      console.log('oneMethod');
-      console.log(oneComputed);
-    };
+      const html = this.$refs.templateRef.innerHTML
+      console.log('oneMethod')
+      console.log(oneComputed)
+    }
 
     const twoMethod = () => {
-      this.$refs.templateRef.innerHTML = 'html';
-      console.log('twoMethod');
-      console.log(twoComputed);
-      oneMethod();
-    };
+      this.$refs.templateRef.innerHTML = 'html'
+      console.log('twoMethod')
+      console.log(twoComputed)
+      oneMethod()
+    }
 
     const threeMethod = () => {
-      console.log('threeMethod');
-      console.log(threeComputed);
-      twoMethod();
-    };
+      console.log('threeMethod')
+      console.log(threeComputed)
+      twoMethod()
+    }
 
-    return { ...ref(data),
+    return {
+      ...ref(data),
       oneComputed: oneComputed,
       twoComputed: twoComputed,
       threeComputed: threeComputed,
@@ -168,8 +170,7 @@ export default {
       oneMethod: oneMethod,
       twoMethod: twoMethod,
       threeMethod: threeMethod
-    };
+    }
   }
-
-};
+}
 ```
