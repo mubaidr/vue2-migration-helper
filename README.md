@@ -115,7 +115,12 @@ export default {
   setup(props, context) {
     const data = reactive({
       one: true,
-      two: 2
+      two: 2,
+      three: 'three'
+    })
+    const templateRef = ref(null)
+    const threeComputed = computed(() => {
+      return !data.one
     })
     const twoComputed = computed(() => {
       return !data.one
@@ -142,13 +147,13 @@ export default {
     }
 
     const oneMethod = () => {
-      const html = this.$refs.templateRef.innerHTML
+      const html = templateRef.value.innerHTML
       console.log('oneMethod')
       console.log(oneComputed)
     }
 
     const twoMethod = () => {
-      this.$refs.templateRef.innerHTML = 'html'
+      templateRef.value.innerHTML = 'html'
       console.log('twoMethod')
       console.log(twoComputed)
       oneMethod()
