@@ -66,5 +66,3 @@ export function addSetupMethod(ast: types.File) {
     }
   }
 }
-
-export function insertIntoSetupMethod(node: any, index: number) {}

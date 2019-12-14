@@ -1,4 +1,7 @@
 {
+  "bin": {
+    "vue2-migration-helper": "./src/cli.js"
+  },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
@@ -11,9 +14,13 @@
     "@babel/parser": "7.7.5",
     "@babel/traverse": "7.7.4",
     "@phenomnomnominal/tsquery": "^4.0.0",
-    "fast-xml-parser": "^3.15.1"
+    "chalk": "^3.0.0",
+    "clear": "^0.1.0",
+    "fast-xml-parser": "^3.15.1",
+    "figlet": "^1.2.4",
+    "yargs": "^15.0.2"
   },
-  "description": "Updates vue2 components to vue3 composition api syntax.",
+  "description": "Updates vue2 sfc components to vue3 composition api syntax.",
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
@@ -89,7 +96,7 @@
     "prepare-release": "run-s reset test cov:check doc:html version doc:publish",
     "reset": "git clean -dfx && git reset --hard && npm i",
     "test": "run-s build test:*",
-    "test:lint": "eslint --ext .ts ./ && prettier \"src/**/*.ts\" --list-different",
+    "test:lint": "eslint --c ./src/.eslintrc.json --ext .ts ./src && prettier \"src/**/*.ts\" --write",
     "test:unit": "jest",
     "version": "standard-version",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\""

@@ -1,4 +1,5 @@
 import { types } from '@babel/core'
+import { getExportDefault } from '../astUtilities'
 import { vue2Hooks, vue2Imports } from '../vue2'
 
 function getImportForKey(name: string) {
@@ -54,12 +55,10 @@ function prepareimportSpecifiers(
   return importSpecifiers
 }
 
-export function addImports(
-  ast: types.File,
-  exportDefaultDeclaration: types.ExportDefaultDeclaration
-) {
+export function addImports(ast: types.File) {
+  const exportDefault = getExportDefault(ast)
   const importStatements = types.importDeclaration(
-    prepareimportSpecifiers(exportDefaultDeclaration),
+    prepareimportSpecifiers(exportDefault),
     types.stringLiteral('vue')
   )
 

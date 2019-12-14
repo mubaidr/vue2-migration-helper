@@ -1,5 +1,5 @@
 import { types } from '@babel/core'
-import { getAst, getCode, getExportDefault } from './lib/astUtilities'
+import { getAst, getCode } from './lib/astUtilities'
 import { addBody } from './lib/generators/body'
 import { addImports } from './lib/generators/imports'
 import { addSetupMethod } from './lib/generators/setupMethod'
@@ -11,16 +11,15 @@ export function vue2MigrationHelper(options: { path: string }) {
   const originalTemplate = getTemplate(options.path)
   const originalAst = getAst(originalTemplate.script)
   let outputAst = types.cloneDeep(originalAst)
-  const exportDefault = getExportDefault(originalAst)
 
   // add vue3 imports
-  addImports(outputAst, exportDefault)
+  addImports(outputAst)
 
   // add & return setup method
   addSetupMethod(outputAst)
 
   // add body
-  outputAst = addBody(outputAst, exportDefault)
+  outputAst = addBody(outputAst)
 
   // update template refs
   outputAst = updateTemplateRefs(outputAst)

@@ -13,7 +13,7 @@ export function updateThisCalls(
 
   list.forEach(item => {
     const regExp = new RegExp(
-      `(${preString + item + postString})[;|(|)|{|}|[|\]|\s]`,
+      `(${preString + item + postString})[;|(|)|{|}|[|]|s]`,
       'gmi'
     )
 
