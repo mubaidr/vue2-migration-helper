@@ -11,7 +11,7 @@
     "@babel/parser": "7.7.5",
     "@babel/traverse": "7.7.4",
     "@phenomnomnominal/tsquery": "^4.0.0",
-    "xml2js": "^0.4.22"
+    "fast-xml-parser": "^3.15.1"
   },
   "description": "Updates vue2 components to vue3 composition api syntax.",
   "devDependencies": {
@@ -28,7 +28,6 @@
     "@types/gh-pages": "^2.0.1",
     "@types/jest": "^24.0.23",
     "@types/prettier": "^1.19.0",
-    "@types/xml2js": "^0.4.5",
     "@typescript-eslint/eslint-plugin": "^2.11.0",
     "@typescript-eslint/parser": "^2.11.0",
     "babel-eslint": "^10.0.3",

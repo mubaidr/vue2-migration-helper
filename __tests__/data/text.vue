@@ -1,5 +1,5 @@
 <template>
-  <h1>Test Component</h1>
+  <h1 ref="templateRef" class="heading">Test Component</h1>
 </template>
 
 <script>
@@ -93,4 +93,7 @@ export default {
 </script>
 
 <style>
+.heading {
+  font-size: large;
+}
 </style>

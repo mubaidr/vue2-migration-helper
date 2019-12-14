@@ -3,14 +3,12 @@ import { getAst, getCode, getExportDefault } from './lib/astUtilities'
 import { addBody } from './lib/generators/body'
 import { addImports } from './lib/generators/imports'
 import { addSetupMethod } from './lib/generators/setupMethod'
-import { getTemplate } from './lib/templateUtilities'
+import { getOutputTemplate, getTemplate } from './lib/templateUtilities'
 import { updateTemplateRefs } from './lib/transformers/templateRefs'
 import { updateVueObjectReferences } from './lib/transformers/vueObjectReferences'
 
-export async function vue2MigrationHelper(options: {
-  path: string
-}): Promise<string> {
-  const originalTemplate = await getTemplate(options.path)
+export function vue2MigrationHelper(options: { path: string }) {
+  const originalTemplate = getTemplate(options.path)
   const originalAst = getAst(originalTemplate.script)
   let outputAst = types.cloneDeep(originalAst)
   const exportDefault = getExportDefault(originalAst)
@@ -31,12 +29,5 @@ export async function vue2MigrationHelper(options: {
   outputAst = updateVueObjectReferences(outputAst)
 
   // return final code
-  return getCode(outputAst)
+  return getOutputTemplate(originalTemplate, getCode(outputAst))
 }
-
-// testing code
-vue2MigrationHelper({
-  path: './__tests__/data/text.vue'
-}).then(res => {
-  console.log(res)
-})
