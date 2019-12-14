@@ -7,8 +7,18 @@ import { getOutputTemplate, getTemplate } from './lib/templateUtilities'
 import { updateTemplateRefs } from './lib/transformers/templateRefs'
 import { updateVueObjectReferences } from './lib/transformers/vueObjectReferences'
 
-export function vue2MigrationHelper(options: { path: string }) {
-  const originalTemplate = getTemplate(options.path)
+type Options = {
+  source: string
+  target: string
+  dryRun: boolean
+}
+
+export function vue2MigrationHelper({
+  source,
+  target = '',
+  dryRun = false
+}: Options) {
+  const originalTemplate = getTemplate(source)
   const originalAst = getAst(originalTemplate.script)
   let outputAst = types.cloneDeep(originalAst)
 
@@ -29,4 +39,8 @@ export function vue2MigrationHelper(options: { path: string }) {
 
   // return final code
   return getOutputTemplate(originalTemplate, getCode(outputAst))
+}
+
+export default {
+  vue2MigrationHelper
 }

@@ -15,9 +15,8 @@
     "@babel/traverse": "7.7.4",
     "@phenomnomnominal/tsquery": "^4.0.0",
     "chalk": "^3.0.0",
-    "clear": "^0.1.0",
     "fast-xml-parser": "^3.15.1",
-    "figlet": "^1.2.4",
+    "glob": "^7.1.6",
     "yargs": "^15.0.2"
   },
   "description": "Updates vue2 sfc components to vue3 composition api syntax.",
