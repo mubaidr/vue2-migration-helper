@@ -1,6 +1,7 @@
 import { types } from '@babel/core'
 import { updateThisCalls } from '../transformers/thisCalls'
 import { vue2Hooks, vue2HooksDeprecated } from '../vue2'
+import { addComponents } from './sections/components'
 import { addComputed } from './sections/computed'
 import { addData } from './sections/data'
 import { addHooks } from './sections/hooks'
@@ -47,6 +48,9 @@ export function addBody(
       const key = property.key as types.Identifier
 
       switch (key.name) {
+        case 'components':
+          addComponents(ast, property)
+          break
         case 'props':
           addProps(ast, property)
           break

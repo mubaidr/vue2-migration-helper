@@ -2,8 +2,6 @@
 
 Updates vue2 SFCs (single file components) to vue3 composition api syntax.
 
-(work in progress)
-
 ## Features
 
 - [x] add `setup` method
@@ -16,7 +14,7 @@ Updates vue2 SFCs (single file components) to vue3 composition api syntax.
 - [x] convert `props` syntax
 - [x] replace `this` usage with new `context` parameter for \$events etc
 - [x] update `lifecycle` hooks and remove deperecated lifecycle hooks
-- [ ] `component` registration
+- [x] `component` registration
 
 missing something?
 
@@ -25,6 +23,7 @@ missing something?
 For a Vue.js SFC (single file component) like this:
 
 ```js
+import SomeComponent from './SomeComponent'
 const zero = {}
 
 export default {
@@ -32,6 +31,10 @@ export default {
     title: String,
     likes: Number,
     callback: Function
+  },
+
+  components: {
+    SomeComponent
   },
 
   data() {
@@ -43,14 +46,14 @@ export default {
   },
 
   watch: {
-    oneWatch(val) {
+    one(val) {
       console.log(val)
     },
-    twoWatch: val => {
+    two: val => {
       console.log(val)
     },
-    threeWatch: function(val) {
-      console.log(val)
+    three: function(a, b) {
+      console.log(a, b)
     }
   },
 
@@ -113,9 +116,12 @@ this script generates Vue SFC using composition API:
 
 ```js
 import { ref, reacted, toRefs, watch, computed, onMounted } from 'vue'
-const zero = {} // comment
-
+import SomeComponent from './SomeComponent'
+const zero = {}
 export default {
+  components: {
+    SomeComponent
+  },
   props: {
     title: String,
     likes: Number,

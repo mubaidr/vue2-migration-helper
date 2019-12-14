@@ -3,13 +3,18 @@
 </template>
 
 <script>
+import SomeComponent from './SomeComponent'
 const zero = {}
-// comment
+
 export default {
   props: {
     title: String,
     likes: Number,
     callback: Function
+  },
+
+  components: {
+    SomeComponent
   },
 
   data() {
