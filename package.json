@@ -1,7 +1,5 @@
 {
-  "bin": {
-    "vue2-migration-helper": "./src/cli.js"
-  },
+  "bin": "build/main/src/cli/index.js",
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
@@ -67,8 +65,8 @@
     "javascript"
   ],
   "license": "MIT",
-  "main": "build/main/index.js",
-  "module": "build/module/index.js",
+  "main": "build/main/src/index.js",
+  "module": "build/module/src/index.js",
   "name": "vue2-migration-helper",
   "prettier": {
     "semi": false,
@@ -90,12 +88,12 @@
     "doc:json": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --json build/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "fix": "run-s fix:*",
-    "fix:eslint": "eslint --fix --ext .ts ./",
+    "fix:eslint": "eslint --c ./src/.eslintrc.json --ext .ts ./src",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "prepare-release": "run-s reset test cov:check doc:html version doc:publish",
     "reset": "git clean -dfx && git reset --hard && npm i",
     "test": "run-s build test:*",
-    "test:lint": "eslint --c ./src/.eslintrc.json --ext .ts ./src && prettier \"src/**/*.ts\" --write",
+    "test:lint": "eslint --c ./src/.eslintrc.json --ext .ts ./src",
     "test:unit": "jest",
     "version": "standard-version",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\""
