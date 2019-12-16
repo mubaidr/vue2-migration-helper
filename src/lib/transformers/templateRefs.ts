@@ -22,6 +22,9 @@ export function updateTemplateRefs(ast: types.File) {
   // addd ref(null) for each template ref
   const setupMethodBody = getSetupMethod(ast).body.body
   const returnStatement = setupMethodBody.slice(-1)[0] as types.ReturnStatement
+
+  console.log(setupMethodBody, returnStatement)
+
   const argument = returnStatement.argument as types.ObjectExpression
 
   templateRefList.forEach(templateRef => {

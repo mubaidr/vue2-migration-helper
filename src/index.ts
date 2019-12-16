@@ -1,4 +1,5 @@
 import { types } from '@babel/core'
+import fs from 'fs'
 import { getAst, getCode } from './lib/astUtilities'
 import { addBody } from './lib/generators/body'
 import { addImports } from './lib/generators/imports'
@@ -9,8 +10,8 @@ import { updateVueObjectReferences } from './lib/transformers/vueObjectReference
 
 type Options = {
   source: string
-  target: string
-  dryRun: boolean
+  target?: string
+  dryRun?: boolean
 }
 
 export function vue2MigrationHelper({
@@ -31,14 +32,23 @@ export function vue2MigrationHelper({
   // add body
   outputAst = addBody(outputAst)
 
+  console.log(getCode(outputAst))
+
   // update template refs
   outputAst = updateTemplateRefs(outputAst)
 
   // update vue object this references
   outputAst = updateVueObjectReferences(outputAst)
 
+  // get final code
+  const code = getOutputTemplate(originalTemplate, getCode(outputAst))
+
+  if (!dryRun && target) {
+    fs.writeFileSync(target, code)
+  }
+
   // return final code
-  return getOutputTemplate(originalTemplate, getCode(outputAst))
+  return code
 }
 
 export default {

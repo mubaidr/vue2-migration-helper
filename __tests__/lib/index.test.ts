@@ -9,7 +9,8 @@ describe('vue2-migration-helper', () => {
   test('should be able to extract js ast from vue sfc', () => {
     expect(
       vue2MigrationHelper({
-        path: './__tests__/data/text.vue'
+        source: './__tests__/data/text.vue',
+        dryRun: true
       })
     ).toBeDefined()
   })
