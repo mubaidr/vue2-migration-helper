@@ -46,23 +46,49 @@ export function getSetupMethod(ast: types.File) {
   return setups[0]
 }
 
-export function addSetupMethod(ast: types.File) {
-  for (let i = 0; i < ast.program.body.length; i += 1) {
-    const statement = ast.program.body[i]
+export function getSetupReturnStatement(ast: types.File) {
+  const setupMethod = getSetupMethod(ast)
+  const returnStatement = setupMethod.body.body.find(s =>
+    types.isReturnStatement(s)
+  )
 
-    if (types.isExportDefaultDeclaration(statement)) {
-      ast.program.body[i] = types.exportDefaultDeclaration(
-        types.objectExpression([
-          types.objectMethod(
-            'method',
-            types.identifier('setup'),
-            [],
-            types.blockStatement([])
-          )
-        ])
+  if (types.isReturnStatement(returnStatement)) {
+    return {
+      returnStatement,
+      arguments: returnStatement.argument
+    }
+  }
+
+  return {
+    returnStatement: undefined,
+    arguments: undefined
+  }
+}
+
+export function getDataReturnStatement(ast: types.File) {
+  const exportDefault = getExportDefault(ast)
+  const declaration = exportDefault.declaration as types.ObjectExpression
+  const properties = declaration.properties
+
+  for (let i = 0; i < properties.length; i += 1) {
+    const property = properties[i]
+
+    if (types.isObjectMethod(property) && property.key.name === 'data') {
+      const returnStatement = property.body.body.find(s =>
+        types.isReturnStatement(s)
       )
 
-      break
+      if (types.isReturnStatement(returnStatement)) {
+        return {
+          returnStatement,
+          arguments: returnStatement.argument
+        }
+      }
     }
+  }
+
+  return {
+    returnStatement: undefined,
+    arguments: undefined
   }
 }

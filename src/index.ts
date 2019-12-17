@@ -1,5 +1,7 @@
 import { types } from '@babel/core'
+import chalk from 'chalk'
 import fs from 'fs'
+import mkdirp from 'mkdirp'
 import { getAst, getCode } from './lib/astUtilities'
 import { addBody } from './lib/generators/body'
 import { addImports } from './lib/generators/imports'
@@ -32,8 +34,6 @@ export function vue2MigrationHelper({
   // add body
   outputAst = addBody(outputAst)
 
-  console.log(getCode(outputAst))
-
   // update template refs
   outputAst = updateTemplateRefs(outputAst)
 
@@ -43,8 +43,13 @@ export function vue2MigrationHelper({
   // get final code
   const code = getOutputTemplate(originalTemplate, getCode(outputAst))
 
+  // write file
   if (!dryRun && target) {
-    fs.writeFileSync(target, code)
+    mkdirp(target, (err: unknown) => {
+      console.error(chalk.red(err))
+
+      fs.writeFileSync(target, code)
+    })
   }
 
   // return final code
@@ -54,3 +59,10 @@ export function vue2MigrationHelper({
 export default {
   vue2MigrationHelper
 }
+
+console.log(
+  vue2MigrationHelper({
+    source: '__tests__/data/text.vue',
+    target: './tmp/'
+  })
+)

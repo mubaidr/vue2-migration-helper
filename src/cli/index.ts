@@ -2,8 +2,10 @@
 import { green, red, yellow } from 'chalk'
 import glob from 'glob'
 import { resolve } from 'path'
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import { vue2MigrationHelper } from 'vue2-migration-helper'
 import { scriptName } from 'yargs'
-import { vue2MigrationHelper } from '../index'
 
 const options = scriptName('vue2-migration-helper')
   .option('source', {
@@ -15,7 +17,7 @@ const options = scriptName('vue2-migration-helper')
   .option('target', {
     alias: ['t'],
     describe: 'Target directory to save transformed components.',
-    demandOption: false,
+    demandOption: true,
     type: 'string'
   })
   .option('dry-run', {
@@ -43,11 +45,12 @@ glob(sourceGlob, (err, sources) => {
 
   sources.forEach(source => {
     console.log(green(`Processing: ${source}`))
+    const fileName = source.split('/').pop()
 
-    // TODO: pass target file
     vue2MigrationHelper({
       source: source,
-      dryRun: options.dryRun === true ? true : false
+      target: resolve(options.target, fileName || 'sample.vue'),
+      dryRun: options['dry-run'] === true ? true : false
     })
 
     console.log(green('Succesffuly processed file: ', source))

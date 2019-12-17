@@ -1,20 +1,19 @@
 import { types } from '@babel/core'
+import { getExportDefault } from '../astUtilities'
 
 export function addSetupMethod(ast: types.File) {
-  for (let i = 0; i < ast.program.body.length; i += 1) {
-    const statement = ast.program.body[i]
+  let exportDefault = getExportDefault(ast)
 
-    if (!types.isExportDefaultDeclaration(statement)) continue
-
-    ast.program.body[i] = types.exportDefaultDeclaration(
-      types.objectExpression([
-        types.objectMethod(
-          'method',
-          types.identifier('setup'),
-          [types.identifier('props'), types.identifier('context')],
-          types.blockStatement([])
-        )
-      ])
-    )
-  }
+  exportDefault = types.exportDefaultDeclaration(
+    types.objectExpression([
+      types.objectMethod(
+        'method',
+        types.identifier('setup'),
+        [types.identifier('props'), types.identifier('context')],
+        types.blockStatement([
+          types.returnStatement(types.objectExpression([]))
+        ])
+      )
+    ])
+  )
 }

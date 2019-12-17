@@ -1,5 +1,5 @@
 import { types } from '@babel/core'
-import { getSetupMethod } from '../../astUtilities'
+import { getReturnStatement, getSetupMethod } from '../../astUtilities'
 
 export function addComputed(ast: types.File, section: types.ObjectProperty) {
   const setupMethodBody = getSetupMethod(ast).body.body
@@ -63,8 +63,7 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
   }
 
   // export computed properties
-  const returnStatement = setupMethodBody.slice(-1)[0] as types.ReturnStatement
-  const argument = returnStatement.argument as types.ObjectExpression
+  const { argument } = getReturnStatement(setupMethodBody)
 
   computedPropsList.forEach(exportItem => {
     argument.properties.push(
