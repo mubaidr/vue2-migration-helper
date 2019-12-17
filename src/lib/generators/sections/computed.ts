@@ -1,8 +1,12 @@
 import { types } from '@babel/core'
-import { getReturnStatement, getSetupMethod } from '../../astUtilities'
+import {
+  addToSetupMethod,
+  getSetupMethod,
+  getSetupReturnStatement
+} from '../../astUtilities'
 
 export function addComputed(ast: types.File, section: types.ObjectProperty) {
-  const setupMethodBody = getSetupMethod(ast).body.body
+  const setupMethod = getSetupMethod(ast)
   const computedProps = section.value as types.ObjectExpression
   const properties = computedProps.properties
   const computedPropsList = []
@@ -23,7 +27,7 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
       ])
 
       computedPropsList.push(key.name)
-      setupMethodBody.splice(1, 0, computedStatement)
+      addToSetupMethod(setupMethod, computedStatement)
 
       continue
     }
@@ -41,7 +45,7 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
         ])
 
         computedPropsList.push(key.name)
-        setupMethodBody.splice(1, 0, computedStatement)
+        addToSetupMethod(setupMethod, computedStatement)
       }
 
       if (types.isFunctionExpression(value)) {
@@ -55,7 +59,7 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
         ])
 
         computedPropsList.push(key.name)
-        setupMethodBody.splice(1, 0, computedStatement)
+        addToSetupMethod(setupMethod, computedStatement)
       }
     }
 
@@ -63,10 +67,11 @@ export function addComputed(ast: types.File, section: types.ObjectProperty) {
   }
 
   // export computed properties
-  const { argument } = getReturnStatement(setupMethodBody)
+  const returnArguments = getSetupReturnStatement(ast)
+    .returnArguments as types.ObjectExpression
 
   computedPropsList.forEach(exportItem => {
-    argument.properties.push(
+    returnArguments.properties.push(
       types.objectProperty(
         types.identifier(exportItem),
         types.identifier(exportItem),

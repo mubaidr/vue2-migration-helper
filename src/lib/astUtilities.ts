@@ -16,7 +16,7 @@ export function getCode(ast: types.File) {
   return generator(ast, {}).code
 }
 
-export function getExportDefault(ast: types.File) {
+export function getExportDefaultDeclaration(ast: types.File) {
   const statement = ast.program.body.find(s => {
     return types.isExportDefaultDeclaration(s)
   }) as types.ExportDefaultDeclaration
@@ -24,49 +24,8 @@ export function getExportDefault(ast: types.File) {
   return statement
 }
 
-export function getSetupMethod(ast: types.File) {
-  const statement = ast.program.body.find(s => {
-    return types.isExportDefaultDeclaration(s)
-  }) as types.ExportDefaultDeclaration
-
-  const declaration = statement.declaration as types.ObjectExpression
-  const properties = declaration.properties as types.ObjectMethod[]
-  const setups = properties.filter(prop => {
-    if (types.isObjectMethod(prop) || types.isObjectProperty(prop)) {
-      const key = prop.key as types.Identifier
-
-      if (key.name === 'setup') {
-        return true
-      }
-    }
-
-    return false
-  })
-
-  return setups[0]
-}
-
-export function getSetupReturnStatement(ast: types.File) {
-  const setupMethod = getSetupMethod(ast)
-  const returnStatement = setupMethod.body.body.find(s =>
-    types.isReturnStatement(s)
-  )
-
-  if (types.isReturnStatement(returnStatement)) {
-    return {
-      returnStatement,
-      arguments: returnStatement.argument
-    }
-  }
-
-  return {
-    returnStatement: undefined,
-    arguments: undefined
-  }
-}
-
 export function getDataReturnStatement(ast: types.File) {
-  const exportDefault = getExportDefault(ast)
+  const exportDefault = getExportDefaultDeclaration(ast)
   const declaration = exportDefault.declaration as types.ObjectExpression
   const properties = declaration.properties
 
@@ -76,19 +35,46 @@ export function getDataReturnStatement(ast: types.File) {
     if (types.isObjectMethod(property) && property.key.name === 'data') {
       const returnStatement = property.body.body.find(s =>
         types.isReturnStatement(s)
-      )
+      ) as types.ReturnStatement
 
-      if (types.isReturnStatement(returnStatement)) {
-        return {
-          returnStatement,
-          arguments: returnStatement.argument
-        }
+      return {
+        returnStatement,
+        returnArguments: returnStatement.argument
       }
     }
   }
 
   return {
     returnStatement: undefined,
-    arguments: undefined
+    returnArguments: undefined
   }
+}
+
+enum enumPositions {
+  'start' = 'start',
+  'end' = 'end'
+}
+
+export function addToSetupMethod(
+  setupMethod: types.ObjectMethod,
+  statement: types.Statement,
+  position: enumPositions = enumPositions.start
+) {
+  setupMethod.body.body.splice(
+    position === enumPositions.start ? 1 : -1,
+    0,
+    statement
+  )
+}
+
+export function addToReturnStatement(
+  setupMethod: types.ObjectMethod,
+  statement: types.Statement,
+  position: enumPositions = enumPositions.start
+) {
+  setupMethod.body.body.splice(
+    position === enumPositions.start ? 1 : -1,
+    0,
+    statement
+  )
 }

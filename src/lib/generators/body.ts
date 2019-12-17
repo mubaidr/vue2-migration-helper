@@ -1,5 +1,5 @@
 import { types } from '@babel/core'
-import { getExportDefault } from '../astUtilities'
+import { getExportDefaultDeclaration } from '../astUtilities'
 import { updateThisCalls } from '../transformers/thisCalls'
 import { vue2Hooks, vue2HooksDeprecated } from '../vue2'
 import { addComponents } from './sections/components'
@@ -11,7 +11,7 @@ import { addProps } from './sections/props'
 import { addWatches } from './sections/watch'
 
 export function addBody(ast: types.File) {
-  const exportDefault = getExportDefault(ast)
+  const exportDefault = getExportDefaultDeclaration(ast)
   const declaration = exportDefault.declaration as types.ObjectExpression
   const properties = declaration.properties
 

@@ -1,5 +1,4 @@
 import { types } from '@babel/core'
-import { getExportDefault } from '../astUtilities'
 import { vue2Hooks, vue2Imports } from '../vue2'
 
 function getImportForKey(name: string) {
@@ -9,17 +8,19 @@ function getImportForKey(name: string) {
 
   if (vue2Hooks.includes(name)) {
     name = 'on' + name[0].toUpperCase() + name.substr(1)
-
     return name
   }
 
   return undefined
 }
 
-function prepareimportSpecifiers(
-  exportDefaultDeclaration: types.ExportDefaultDeclaration
+export function prepareimportSpecifiers(
+  exportDefaultDeclaration: types.ExportDefaultDeclaration | undefined
 ) {
   const importSpecifiers: types.ImportSpecifier[] = []
+
+  if (!exportDefaultDeclaration) return importSpecifiers
+
   const declaration = exportDefaultDeclaration.declaration as types.ObjectExpression
 
   declaration.properties.forEach(property => {
@@ -53,14 +54,4 @@ function prepareimportSpecifiers(
   )
 
   return importSpecifiers
-}
-
-export function addImports(ast: types.File) {
-  const exportDefault = getExportDefault(ast)
-  const importStatements = types.importDeclaration(
-    prepareimportSpecifiers(exportDefault),
-    types.stringLiteral('vue')
-  )
-
-  ast.program.body.unshift(importStatements)
 }

@@ -1,7 +1,7 @@
 import parser, { j2xParser } from 'fast-xml-parser'
 import fs from 'fs'
 
-type ContentTemplate = {
+export type ContentTemplate = {
   template: string
   script: string
   style: string
