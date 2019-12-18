@@ -9,4 +9,5 @@ coverage
 *.log
 
 yarn.lock
-tmp/text.vue
+tmp/
+./tmp/
