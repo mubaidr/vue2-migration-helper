@@ -20,7 +20,12 @@ function processFile(source: string, targetRoot: string) {
   const targetPath = path.resolve(targetRoot, fileName)
 
   // write file
-  fs.writeFileSync(targetPath, code)
+  if (
+    process.env.NODE_ENV !== 'development' &&
+    process.env.NODE_ENV !== 'test'
+  ) {
+    fs.writeFileSync(targetPath, code)
+  }
 
   console.log(chalk.green(`Processed: ${targetPath}`))
 }

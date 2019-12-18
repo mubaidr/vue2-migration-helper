@@ -1,5 +1,4 @@
 import { types } from '@babel/core'
-import { prepareimportSpecifiers } from './generators/imports'
 import { addComponents } from './transformers/components'
 import { addComputed } from './transformers/computed'
 import { addData } from './transformers/data'
@@ -8,12 +7,14 @@ import { addMethods } from './transformers/methods'
 import { addProps } from './transformers/props'
 import { addWatch } from './transformers/watch'
 import { getAst, getCode, getExportDefaultDeclaration } from './utilities/ast'
+import { prepareimportSpecifiers } from './utilities/imports'
 import {
   ContentTemplate,
   readTemplate,
   updateTemplate
 } from './utilities/template'
-import { vue2Hooks, vue2HooksDeprecated } from './vue2'
+import { updateVueObjectReferences } from './utilities/vueObjectReferences'
+import { vue2Hooks } from './vue2'
 
 export class MigrationHelper {
   readonly template: ContentTemplate
@@ -45,6 +46,9 @@ export class MigrationHelper {
     this.addImports()
     this.addSetupMethod()
     this.updateBody()
+
+    // replaces vue object references with context option
+    updateVueObjectReferences(this)
   }
 
   getCode() {
@@ -73,35 +77,22 @@ export class MigrationHelper {
       .declaration as types.ObjectExpression
     const properties = declaration.properties
 
-    let dataPropsList: string[] = []
-    let methodsList: string[] = []
-    let computedPropsList: string[] = []
-
     for (let i = 0; i < properties.length; i += 1) {
       const property = properties[i]
 
       if (types.isObjectMethod(property)) {
         const key = property.key as types.Identifier
 
-        if (
-          vue2Hooks.includes(key.name) ||
-          vue2HooksDeprecated.includes(key.name)
-        ) {
-          // hooks
+        // hooks
+        if (vue2Hooks.includes(key.name)) {
           addHooks(this, property)
-          continue
         }
 
+        // reactive data
         if (key.name === 'data') {
-          // reactive properties
-          dataPropsList = addData(this, property)
-          continue
+          addData(this, property)
         }
-
-        continue
-      }
-
-      if (types.isObjectProperty(property)) {
+      } else if (types.isObjectProperty(property)) {
         const key = property.key as types.Identifier
 
         switch (key.name) {
@@ -112,27 +103,19 @@ export class MigrationHelper {
             addProps(this, property)
             break
           case 'methods':
-            methodsList = addMethods(this, property)
+            addMethods(this, property)
             break
           case 'computed':
-            computedPropsList = addComputed(this, property)
+            addComputed(this, property)
             break
           case 'watch':
             addWatch(this, property)
             break
         }
-
-        continue
       }
 
       // not required
       // if (property.type === 'SpreadElement') {}
     }
-
-    // TODO: replacing ast breaks setupMethod, returnStatement references
-    // update ast instad of replace
-    // this.ast = replaceReferences(this.ast, dataPropsList, 'this.', '', 'data.')
-    // this.ast = replaceReferences(this.ast, computedPropsList, 'this.')
-    // this.ast = replaceReferences(this.ast, methodsList, 'this.')
   }
 }

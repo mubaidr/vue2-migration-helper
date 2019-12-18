@@ -1,5 +1,6 @@
 import { types } from '@babel/core'
 import { MigrationHelper } from '../MigrationHelper'
+import { replaceReferences } from '../utilities/references'
 
 export function addComputed(
   migrationHelper: MigrationHelper,
@@ -80,5 +81,6 @@ export function addComputed(
     )
   })
 
-  return computedPropsList
+  // replace references
+  replaceReferences(migrationHelper, computedPropsList, 'this.')
 }

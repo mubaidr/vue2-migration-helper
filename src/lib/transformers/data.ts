@@ -1,5 +1,6 @@
 import { types } from '@babel/core'
 import { MigrationHelper } from '../MigrationHelper'
+import { replaceReferences } from '../utilities/references'
 
 export function addData(
   migrationHelper: MigrationHelper,
@@ -38,5 +39,6 @@ export function addData(
     }
   }
 
-  return dataPropsList
+  // replace references
+  replaceReferences(migrationHelper, dataPropsList, 'this.', '', 'data.')
 }

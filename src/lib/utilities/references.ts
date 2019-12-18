@@ -1,29 +1,13 @@
-import { types } from '@babel/core'
-import { getAst, getCode } from './ast'
+import { MigrationHelper } from '../MigrationHelper'
 
 export function replaceReferences(
-  ast: types.File,
+  migrationHelper: MigrationHelper,
   list: string[],
   preString = '',
   postString = '',
   preAppendString = '',
   postAppendString = ''
 ) {
-  let code = getCode(ast)
-
-  list.forEach(item => {
-    const regExp = new RegExp(
-      `(${preString + item + postString})[;|(|)|{|}|[|]|s]`,
-      'gmi'
-    )
-
-    code = code.replace(regExp, match => {
-      return match.replace(
-        preString + item + postString,
-        preAppendString + item + postAppendString
-      )
-    })
-  })
-
-  return getAst(code)
+  console.log('implement replaceReferences')
+  console.log(list, preString, postString, preAppendString, postAppendString)
 }
