@@ -8,7 +8,6 @@ import { addMethods } from './transformers/methods'
 import { addProps } from './transformers/props'
 import { addWatch } from './transformers/watch'
 import { getAst, getCode, getExportDefaultDeclaration } from './utilities/ast'
-import { replaceReferences } from './utilities/references'
 import {
   ContentTemplate,
   readTemplate,
@@ -17,14 +16,14 @@ import {
 import { vue2Hooks, vue2HooksDeprecated } from './vue2'
 
 export class MigrationHelper {
-  template: ContentTemplate
-  templateOriginal: ContentTemplate
-  ast: types.File
-  astOriginal: types.File
-  setupMethod: types.ObjectMethod
-  returnStatement: types.ReturnStatement
-  exportDefaultDeclaration: types.ExportDefaultDeclaration
-  exportDefaultDeclarationOriginal: types.ExportDefaultDeclaration
+  readonly template: ContentTemplate
+  readonly templateOriginal: ContentTemplate
+  readonly ast: types.File
+  readonly astOriginal: types.File
+  readonly setupMethod: types.ObjectMethod
+  readonly returnStatement: types.ReturnStatement
+  readonly exportDefaultDeclaration: types.ExportDefaultDeclaration
+  readonly exportDefaultDeclarationOriginal: types.ExportDefaultDeclaration
 
   constructor(source: string) {
     this.template = readTemplate(source)
@@ -132,8 +131,8 @@ export class MigrationHelper {
 
     // TODO: replacing ast breaks setupMethod, returnStatement references
     // update ast instad of replace
-    this.ast = replaceReferences(this.ast, dataPropsList, 'this.', '', 'data.')
-    this.ast = replaceReferences(this.ast, computedPropsList, 'this.')
-    this.ast = replaceReferences(this.ast, methodsList, 'this.')
+    // this.ast = replaceReferences(this.ast, dataPropsList, 'this.', '', 'data.')
+    // this.ast = replaceReferences(this.ast, computedPropsList, 'this.')
+    // this.ast = replaceReferences(this.ast, methodsList, 'this.')
   }
 }
