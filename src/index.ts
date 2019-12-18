@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import fs from 'fs'
 import glob from 'glob'
 import path from 'path'
-import { MigrationHelper } from './MigrationHelper'
+import { MigrationHelper } from './lib/MigrationHelper'
 
 type Options = {
   source: string

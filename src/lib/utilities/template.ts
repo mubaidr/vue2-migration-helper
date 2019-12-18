@@ -7,7 +7,7 @@ export type ContentTemplate = {
   style: string
 }
 
-export function getTemplate(path: string) {
+export function readTemplate(path: string) {
   if (!fs.existsSync(path)) {
     throw new Error(`Input file does not exists: ${path}`)
   }
@@ -18,10 +18,7 @@ export function getTemplate(path: string) {
   return content
 }
 
-export function getOutputTemplate(
-  contentTemplate: ContentTemplate,
-  code: string
-) {
+export function updateTemplate(contentTemplate: ContentTemplate, code: string) {
   contentTemplate.script = code
   const parser = new j2xParser({
     format: true,

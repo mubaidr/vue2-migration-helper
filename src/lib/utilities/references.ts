@@ -1,7 +1,7 @@
 import { types } from '@babel/core'
-import { getAst, getCode } from '../astUtilities'
+import { getAst, getCode } from './ast'
 
-export function updateThisCalls(
+export function replaceReferences(
   ast: types.File,
   list: string[],
   preString = '',

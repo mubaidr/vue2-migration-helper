@@ -1,5 +1,5 @@
 import { types } from '@babel/core'
-import { getAst, getCode } from '../astUtilities'
+import { getAst, getCode } from '../utilities/ast'
 
 export function updateVueObjectReferences(ast: types.File) {
   let code = getCode(ast)
