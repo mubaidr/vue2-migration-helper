@@ -5,13 +5,11 @@ import {
   getExportDefaultDeclaration
 } from './lib/astUtilities'
 import { prepareimportSpecifiers } from './lib/generators/imports'
-import { ContentTemplate, getTemplate } from './lib/templateUtilities'
-
-type Options = {
-  source: string
-  target?: string
-  dryRun?: boolean
-}
+import {
+  ContentTemplate,
+  getOutputTemplate,
+  getTemplate
+} from './lib/templateUtilities'
 
 export class MigrationHelper {
   private template: ContentTemplate
@@ -23,7 +21,7 @@ export class MigrationHelper {
   private exportDefaultDeclaration: types.ExportDefaultDeclaration
   private exportDefaultDeclarationOriginal: types.ExportDefaultDeclaration
 
-  constructor({ source, target = '', dryRun = false }: Options) {
+  constructor(source: string) {
     this.template = getTemplate(source)
     this.templateOriginal = JSON.parse(JSON.stringify(this.template))
     this.ast = getAst(this.template.script)
@@ -61,13 +59,6 @@ export class MigrationHelper {
   }
 
   getCode() {
-    return getCode(this.ast)
+    return getOutputTemplate(this.template, getCode(this.ast))
   }
 }
-
-const mh = new MigrationHelper({
-  source: '__tests__/data/text.vue',
-  dryRun: true
-})
-
-console.log(mh.getCode())

@@ -1,68 +1,64 @@
-import { types } from '@babel/core'
 import chalk from 'chalk'
 import fs from 'fs'
-import mkdirp from 'mkdirp'
-import { getAst, getCode } from './lib/astUtilities'
-import { addBody } from './lib/generators/body'
-import { addImports } from './lib/generators/imports'
-import { addSetupMethod } from './lib/generators/setupMethod'
-import { getOutputTemplate, getTemplate } from './lib/templateUtilities'
-import { updateTemplateRefs } from './lib/transformers/templateRefs'
-import { updateVueObjectReferences } from './lib/transformers/vueObjectReferences'
+import glob from 'glob'
+import path from 'path'
+import { MigrationHelper } from './MigrationHelper'
 
 type Options = {
   source: string
   target?: string
-  dryRun?: boolean
 }
 
-export function vue2MigrationHelper({
-  source,
-  target = '',
-  dryRun = false
-}: Options) {
-  const originalTemplate = getTemplate(source)
-  const originalAst = getAst(originalTemplate.script)
-  let outputAst = types.cloneDeep(originalAst)
+function processFile(source: string, targetRoot: string) {
+  const migrationHelper = new MigrationHelper(source)
+  const fileName = source.split('/').pop() as string
 
-  // add vue3 imports
-  addImports(outputAst)
-
-  // add & return setup method
-  addSetupMethod(outputAst)
-
-  // add body
-  outputAst = addBody(outputAst)
-
-  // update template refs
-  outputAst = updateTemplateRefs(outputAst)
-
-  // update vue object this references
-  outputAst = updateVueObjectReferences(outputAst)
+  console.log(chalk.yellow(`Processing: ${source}`))
 
   // get final code
-  const code = getOutputTemplate(originalTemplate, getCode(outputAst))
+  const code = migrationHelper.getCode()
+  const targetPath = path.resolve(targetRoot, fileName)
 
   // write file
-  if (!dryRun && target) {
-    mkdirp(target, (err: unknown) => {
-      console.error(chalk.red(err))
+  fs.writeFileSync(targetPath, code)
 
-      fs.writeFileSync(target, code)
-    })
+  console.log(chalk.green(`Processed: ${targetPath}`))
+}
+
+export function vue2MigrationHelper({ source, target }: Options) {
+  // check if source directory exists
+  if (!fs.existsSync(source)) {
+    throw new Error(`Invalid source path: ${source}`)
   }
 
-  // return final code
-  return code
+  // check if target directory exists
+  if (target && path.dirname(target) === target) {
+    throw new Error(`Target must be a directory: ${target}`)
+  }
+
+  // check if source is single file or directory
+  if (fs.lstatSync(source).isFile()) {
+    processFile(source, path.dirname(target || source))
+  } else {
+    const targetRoot = target || source
+    const sourceGlob = path.resolve(source, '**/*.vue').replace('\\', '/')
+
+    // process each .vue file in source direcotry
+    glob(sourceGlob, (err, sources) => {
+      if (err) console.error(chalk.red(err))
+
+      sources.forEach(source => {
+        processFile(source, targetRoot)
+      })
+    })
+  }
 }
 
 export default {
   vue2MigrationHelper
 }
 
-console.log(
-  vue2MigrationHelper({
-    source: '__tests__/data/text.vue',
-    target: './tmp/'
-  })
-)
+vue2MigrationHelper({
+  source: '__tests__/data/',
+  target: './tmp/'
+})

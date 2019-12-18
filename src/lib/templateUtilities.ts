@@ -8,6 +8,10 @@ export type ContentTemplate = {
 }
 
 export function getTemplate(path: string) {
+  if (!fs.existsSync(path)) {
+    throw new Error(`Input file does not exists: ${path}`)
+  }
+
   const source = fs.readFileSync(path, 'utf-8')
   const content = parser.parse(source) as ContentTemplate
 
