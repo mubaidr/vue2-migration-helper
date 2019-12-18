@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 import { yellow } from 'chalk'
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
 import { vue2MigrationHelper } from 'vue2-migration-helper'
 import { scriptName } from 'yargs'
 
