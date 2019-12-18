@@ -1,5 +1,5 @@
 import { types } from '@babel/core'
-import { getAst, getCode, getSetupMethod } from '../astUtilities'
+import { getAst, getCode } from '../astUtilities'
 
 export function updateTemplateRefs(ast: types.File) {
   let code = getCode(ast)
