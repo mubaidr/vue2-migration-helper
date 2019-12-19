@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { yellow } from 'chalk'
+// @ts-ignore
 import { vue2MigrationHelper } from 'vue2-migration-helper'
 import { scriptName } from 'yargs'
 

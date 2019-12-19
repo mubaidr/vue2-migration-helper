@@ -5,6 +5,8 @@ import { addData } from './transformers/data'
 import { addHooks } from './transformers/hooks'
 import { addMethods } from './transformers/methods'
 import { addProps } from './transformers/props'
+import { updateTemplateRefs } from './transformers/templateRefs'
+import { updateVueObjectReferences } from './transformers/vueObjectReferences'
 import { addWatch } from './transformers/watch'
 import { getAst, getCode, getExportDefaultDeclaration } from './utilities/ast'
 import { prepareimportSpecifiers } from './utilities/imports'
@@ -13,7 +15,6 @@ import {
   readTemplate,
   updateTemplate
 } from './utilities/template'
-import { updateVueObjectReferences } from './utilities/vueObjectReferences'
 import { vue2Hooks } from './vue2'
 
 export class MigrationHelper {
@@ -48,6 +49,7 @@ export class MigrationHelper {
     this.updateBody()
 
     // replaces vue object references with context option
+    updateTemplateRefs(this)
     updateVueObjectReferences(this)
   }
 
@@ -67,7 +69,7 @@ export class MigrationHelper {
 
   private addSetupMethod() {
     const declaration = this.exportDefaultDeclaration
-      ?.declaration as types.ObjectExpression
+      .declaration as types.ObjectExpression
 
     declaration.properties = [this.setupMethod]
   }

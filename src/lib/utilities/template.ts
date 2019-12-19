@@ -18,7 +18,10 @@ export function readTemplate(path: string) {
   return content
 }
 
-export function updateTemplate(contentTemplate: ContentTemplate, code: string) {
+export function updateTemplate(
+  contentTemplate: ContentTemplate,
+  code: string
+): string {
   contentTemplate.script = code
   const parser = new j2xParser({
     format: true,
