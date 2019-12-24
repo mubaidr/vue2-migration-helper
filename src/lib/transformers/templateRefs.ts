@@ -27,8 +27,7 @@ export function updateTemplateRefs(migrationHelper: MigrationHelper) {
 
       templateRefSet.add(name)
 
-      //TODO: replace expression with new expressions
-      console.log(nodePath.node)
+      //TODO: if parent member expression is this then replace the expressions
     }
   })
 
