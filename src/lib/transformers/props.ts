@@ -9,4 +9,5 @@ export function addProps(
     .declaration as types.ObjectExpression
 
   declaration.properties.splice(0, 0, property)
+  // TODO: update props reference
 }

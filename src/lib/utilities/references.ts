@@ -1,27 +1,29 @@
+import { traverse, types } from '@babel/core'
 import { MigrationHelper } from '../MigrationHelper'
+
+export enum ReferenceType {
+  'data' = 'data',
+  'computed' = 'computed',
+  'methods' = 'methods'
+}
 
 export function replaceReferences(
   migrationHelper: MigrationHelper,
   list: string[],
-  preString = '',
-  postString = '',
-  preAppendString = '',
-  postAppendString = ''
+  type: ReferenceType
 ) {
-  console.log(list, preString, postString, preAppendString, postAppendString)
+  const setupMethodBody = migrationHelper.setupMethod.body.body
+  const returnStatementBody = migrationHelper.returnStatement
+    .argument as types.ObjectExpression
 
-  // traverse(migrationHelper.ast, {
-  //   MemberExpression(nodePath) {
-  //     const node = nodePath.node
-  //     const object = node.object
+  traverse(migrationHelper.ast, {
+    MemberExpression(nodePath) {
+      const node = nodePath.node
+      const object = node.object
 
-  //     if (!types.isThisExpression(object)) return
+      console.log(list)
 
-  //     const property = node.property as types.Identifier
-
-  //     // if (!list.includes(property.name)) return
-
-  //     console.log(property.name)
-  //   }
-  // })
+      console.log(object)
+    }
+  })
 }

@@ -1,6 +1,6 @@
 import { types } from '@babel/core'
 import { MigrationHelper } from '../MigrationHelper'
-import { replaceReferences } from '../utilities/references'
+import { ReferenceType, replaceReferences } from '../utilities/references'
 
 export function addMethods(
   migrationHelper: MigrationHelper,
@@ -101,5 +101,5 @@ export function addMethods(
   })
 
   // replace references
-  replaceReferences(migrationHelper, methodsList, 'this.')
+  replaceReferences(migrationHelper, methodsList, ReferenceType.methods)
 }

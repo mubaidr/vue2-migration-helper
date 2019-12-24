@@ -27,10 +27,14 @@ export function updateTemplateRefs(migrationHelper: MigrationHelper) {
 
       templateRefSet.add(name)
 
-      //TODO: if parent member expression is this then replace the expressions
+      if (!types.isMemberExpression(nodePath.parentPath.node)) return
+      if (!types.isMemberExpression(nodePath.parentPath.node.object)) return
+
+      nodePath.parentPath.node.object = nodePath.parentPath.node.object.property
     }
   })
 
+  // add to return statement
   templateRefSet.forEach(templateRef => {
     returnStatementBody.properties.push(
       types.objectProperty(
@@ -41,6 +45,7 @@ export function updateTemplateRefs(migrationHelper: MigrationHelper) {
       )
     )
 
+    // add declaration
     setupMethodBody.splice(
       1,
       0,
