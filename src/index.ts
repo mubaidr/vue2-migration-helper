@@ -13,7 +13,7 @@ function processFile(source: string, targetRoot: string) {
   const migrationHelper = new MigrationHelper(source)
   const fileName = source.split('/').pop() as string
 
-  console.log(chalk.yellow(`Processing: ${source}`))
+  console.log(chalk.yellow(`☞   ${source}`))
 
   // get final code
   const code = migrationHelper.getCode()
@@ -27,7 +27,9 @@ function processFile(source: string, targetRoot: string) {
     fs.writeFileSync(targetPath, code)
   }
 
-  console.log(chalk.green(`Processed: ${targetPath}`))
+  console.log(code)
+
+  console.log(chalk.green(`✔   ${targetPath}`))
 }
 
 export function vue2MigrationHelper({ source, target }: Options) {

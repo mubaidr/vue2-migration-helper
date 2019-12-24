@@ -54,7 +54,6 @@ export class MigrationHelper {
   }
 
   getCode() {
-    console.log(getCode(this.ast))
     return updateTemplate(this.template, getCode(this.ast))
   }
 
