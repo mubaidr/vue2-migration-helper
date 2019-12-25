@@ -71,6 +71,7 @@ export default {
       const html = this.$refs.templateRef.innerHTML
       console.log('oneMethod')
       console.log(this.oneComputed)
+      console.log(this.$data)
     },
 
     twoMethod: function() {
