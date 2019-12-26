@@ -41,6 +41,10 @@ vue2MigrationHelper({
 })
 ```
 
+### Try online
+
+https://codesandbox.io/s/thirsty-dirac-modoj
+
 ## Features
 
 - [x] add `setup` method
