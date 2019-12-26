@@ -7,7 +7,6 @@ import { addMethods } from './transformers/methods'
 import { addProps } from './transformers/props'
 import { updateTemplateRefs } from './transformers/templateRefs'
 import { updateThisReferences } from './transformers/thisReferences'
-import { updateVueObjectReferences } from './transformers/vueObjectReferences'
 import { addWatch } from './transformers/watch'
 import { getAst, getCode, getExportDefaultDeclaration } from './utilities/ast'
 import { prepareimportSpecifiers } from './utilities/imports'
@@ -57,7 +56,6 @@ export class MigrationHelper {
     // fix this references
     updateTemplateRefs(this)
     updateThisReferences(this)
-    updateVueObjectReferences(this)
   }
 
   getCode() {

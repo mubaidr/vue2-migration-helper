@@ -27,7 +27,7 @@ function processFile(source: string, targetRoot: string) {
     fs.writeFileSync(targetPath, code)
   }
 
-  console.log(code)
+  // console.log(code)
 
   console.log(chalk.green(`✔   ${targetPath}`))
 }
@@ -65,7 +65,7 @@ export default {
   vue2MigrationHelper
 }
 
-vue2MigrationHelper({
-  source: '__tests__/data/',
-  target: './tmp/'
-})
+// vue2MigrationHelper({
+//   source: '__tests__/data/',
+//   target: './tmp/'
+// })

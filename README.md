@@ -38,7 +38,7 @@ Updates vue2 SFCs (single file components) to vue3 composition api syntax. This 
   - removes depracted life cycle hooks, injects deprecated hooks code into `setup` method.
   - copies other `hooks` into the `setup` method
 - [x] `component` registration
-- [ ] replace `this` usage with new `context` parameter for \$events etc
+- [x] replace `this` usage with new `context` parameter for \$events etc
   - replaces `this` keyword usage as this no longer refers to vue component itself.
 
 missing something?
