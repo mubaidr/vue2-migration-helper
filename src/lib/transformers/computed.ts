@@ -1,6 +1,5 @@
 import { types } from '@babel/core'
 import { MigrationHelper } from '../MigrationHelper'
-import { ReferenceType, replaceReferences } from '../utilities/references'
 
 export function addComputed(
   migrationHelper: MigrationHelper,
@@ -9,7 +8,7 @@ export function addComputed(
   const setupMethodBody = migrationHelper.setupMethod.body.body
   const computedProps = section.value as types.ObjectExpression
   const properties = computedProps.properties
-  const computedPropsList = []
+  const computedIdentifiers: string[] = []
 
   for (let i = 0; i < properties.length; i += 1) {
     const property = properties[i]
@@ -26,7 +25,7 @@ export function addComputed(
         )
       ])
 
-      computedPropsList.push(key.name)
+      computedIdentifiers.push(key.name)
       setupMethodBody.splice(-1, 0, computedStatement)
 
       continue
@@ -44,7 +43,7 @@ export function addComputed(
           )
         ])
 
-        computedPropsList.push(key.name)
+        computedIdentifiers.push(key.name)
         setupMethodBody.splice(-1, 0, computedStatement)
       }
 
@@ -58,7 +57,7 @@ export function addComputed(
           )
         ])
 
-        computedPropsList.push(key.name)
+        computedIdentifiers.push(key.name)
         setupMethodBody.splice(-1, 0, computedStatement)
       }
     }
@@ -70,7 +69,7 @@ export function addComputed(
   const returnArguments = migrationHelper.returnStatement
     .argument as types.ObjectExpression
 
-  computedPropsList.forEach(exportItem => {
+  computedIdentifiers.forEach(exportItem => {
     returnArguments.properties.push(
       types.objectProperty(
         types.identifier(exportItem),
@@ -82,5 +81,5 @@ export function addComputed(
   })
 
   // replace references
-  replaceReferences(migrationHelper, computedPropsList, ReferenceType.computed)
+  return computedIdentifiers
 }

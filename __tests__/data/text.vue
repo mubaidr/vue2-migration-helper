@@ -42,10 +42,10 @@ export default {
       return !this.one
     },
     twoComputed: () => {
-      return !this.one
+      return this.two + 5
     },
     threeComputed: function() {
-      return !this.one
+      return this.three.toUpperCase()
     }
   },
 
@@ -87,6 +87,7 @@ export default {
       console.log(this.threeComputed)
       this.twoMethod()
 
+      console.log(this.fourMethod)
       console.log(this.$store)
     }
   }

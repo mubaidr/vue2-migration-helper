@@ -1,6 +1,5 @@
 import { types } from '@babel/core'
 import { MigrationHelper } from '../MigrationHelper'
-import { ReferenceType, replaceReferences } from '../utilities/references'
 
 export function addData(
   migrationHelper: MigrationHelper,
@@ -9,7 +8,7 @@ export function addData(
   const setupMethodBody = migrationHelper.setupMethod.body.body
   const dataReturnStatement = section.body.body[0] as types.ReturnStatement
   const argument = dataReturnStatement.argument as types.ObjectExpression
-  const dataPropsList: string[] = []
+  const dataIdentifiers: string[] = []
 
   const reactiveStatement = types.variableDeclaration('const', [
     types.variableDeclarator(
@@ -35,10 +34,10 @@ export function addData(
 
     if (types.isObjectProperty(property)) {
       const key = property.key as types.Identifier
-      dataPropsList.push(key.name)
+      dataIdentifiers.push(key.name)
     }
   }
 
   // replace references
-  replaceReferences(migrationHelper, dataPropsList, ReferenceType.data)
+  return dataIdentifiers
 }

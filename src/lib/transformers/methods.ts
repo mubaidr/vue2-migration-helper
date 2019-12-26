@@ -1,6 +1,5 @@
 import { types } from '@babel/core'
 import { MigrationHelper } from '../MigrationHelper'
-import { ReferenceType, replaceReferences } from '../utilities/references'
 
 export function addMethods(
   migrationHelper: MigrationHelper,
@@ -9,7 +8,7 @@ export function addMethods(
   const setupMethodBody = migrationHelper.setupMethod.body.body
   const MethodsProps = section.value as types.ObjectExpression
   const properties = MethodsProps.properties
-  const methodsList = []
+  const methodIdentifiers: string[] = []
 
   for (let i = 0; i < properties.length; i += 1) {
     const property = properties[i]
@@ -25,7 +24,7 @@ export function addMethods(
         property.async
       )
 
-      methodsList.push(key.name)
+      methodIdentifiers.push(key.name)
       setupMethodBody.splice(-1, 0, MethodsStatement)
 
       continue
@@ -46,7 +45,7 @@ export function addMethods(
           value.async
         )
 
-        methodsList.push(key.name)
+        methodIdentifiers.push(key.name)
         setupMethodBody.splice(-1, 0, MethodsStatement)
       }
 
@@ -59,7 +58,7 @@ export function addMethods(
           value.async
         )
 
-        methodsList.push(key.name)
+        methodIdentifiers.push(key.name)
         setupMethodBody.splice(-1, 0, MethodsStatement)
       }
     }
@@ -79,7 +78,7 @@ export function addMethods(
           value.async
         )
 
-        methodsList.push(key.name)
+        methodIdentifiers.push(key.name)
         setupMethodBody.splice(-1, 0, MethodsStatement)
       })
     }
@@ -89,7 +88,7 @@ export function addMethods(
   const returnArguments = migrationHelper.returnStatement
     .argument as types.ObjectExpression
 
-  methodsList.forEach(exportItem => {
+  methodIdentifiers.forEach(exportItem => {
     returnArguments.properties.push(
       types.objectProperty(
         types.identifier(exportItem),
@@ -101,5 +100,5 @@ export function addMethods(
   })
 
   // replace references
-  replaceReferences(migrationHelper, methodsList, ReferenceType.methods)
+  return methodIdentifiers
 }

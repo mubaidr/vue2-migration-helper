@@ -6,6 +6,7 @@ import { addHooks } from './transformers/hooks'
 import { addMethods } from './transformers/methods'
 import { addProps } from './transformers/props'
 import { updateTemplateRefs } from './transformers/templateRefs'
+import { updateThisReferences } from './transformers/thisReferences'
 import { updateVueObjectReferences } from './transformers/vueObjectReferences'
 import { addWatch } from './transformers/watch'
 import { getAst, getCode, getExportDefaultDeclaration } from './utilities/ast'
@@ -26,6 +27,11 @@ export class MigrationHelper {
   readonly returnStatement: types.ReturnStatement
   readonly exportDefaultDeclaration: types.ExportDefaultDeclaration
   readonly exportDefaultDeclarationOriginal: types.ExportDefaultDeclaration
+
+  dataIdentifiers: string[] = []
+  computedIdentifiers: string[] = []
+  methodIdentifiers: string[] = []
+  propsIdentifiers: string[] = []
 
   constructor(source: string) {
     this.template = readTemplate(source)
@@ -48,8 +54,9 @@ export class MigrationHelper {
     this.addSetupMethod()
     this.updateBody()
 
-    // replaces vue object references with context option
+    // fix this references
     updateTemplateRefs(this)
+    updateThisReferences(this)
     updateVueObjectReferences(this)
   }
 
@@ -91,7 +98,7 @@ export class MigrationHelper {
 
         // reactive data
         if (key.name === 'data') {
-          addData(this, property)
+          this.dataIdentifiers = addData(this, property)
         }
       } else if (types.isObjectProperty(property)) {
         const key = property.key as types.Identifier
@@ -101,13 +108,13 @@ export class MigrationHelper {
             addComponents(this, property)
             break
           case 'props':
-            addProps(this, property)
+            this.propsIdentifiers = addProps(this, property)
             break
           case 'methods':
-            addMethods(this, property)
+            this.methodIdentifiers = addMethods(this, property)
             break
           case 'computed':
-            addComputed(this, property)
+            this.computedIdentifiers = addComputed(this, property)
             break
           case 'watch':
             addWatch(this, property)
