@@ -2,7 +2,7 @@
 
 Updates vue2 SFCs (single file components) to vue3 composition api syntax. This script contains hacky and quick implementation but the features listed here works well.
 
-[![Build Status](https://travis-ci.org/mubaidr/vue2-migration-helper.svg?branch=master)](https://travis-ci.org/mubaidr/vue2-migration-helper)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmubaidr%2Fvue2-migration-helper%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/mubaidr/vue2-migration-helper/goto?ref=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/adf93fc22bd3479da66f3d4c74a0b95f)](https://app.codacy.com/app/mubaidr/vue2-migration-helper?utm_source=github.com&utm_medium=referral&utm_content=mubaidr/vue2-migration-helper&utm_campaign=Badge_Grade_Dashboard)
 [![codecov](https://codecov.io/gh/mubaidr/vue2-migration-helper/branch/master/graph/badge.svg)](https://codecov.io/gh/mubaidr/vue2-migration-helper)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
@@ -13,6 +13,33 @@ Updates vue2 SFCs (single file components) to vue3 composition api syntax. This 
 <a href="https://patreon.com/mubaidr">
   <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" height="45">
 </a>
+
+## Install
+
+```bash
+npm i vue2-migration-helper
+```
+
+### CLI
+
+```bash
+# convert all .vue files in source directory and outputs in target directory
+vue2-migration-helper --s="source/" --t="target/"
+
+# displays help
+vue2-migration-helper --help
+```
+
+### Programatically use
+
+```ts
+import { vue2MigrationHelper } from 'vue2-migration-helper'
+
+vue2MigrationHelper({
+  source: 'source/',
+  target: 'target/'
+})
+```
 
 ## Features
 
@@ -43,33 +70,6 @@ Updates vue2 SFCs (single file components) to vue3 composition api syntax. This 
   - replaces `this` keyword usage as this no longer refers to vue component itself.
 
 missing something?
-
-## Install
-
-```bash
-npm i vue2-migration-helper
-```
-
-### CLI
-
-```bash
-# convert all .vue files in source directory and outputs in target directory
-vue2-migration-helper --s="source/" --t="target/"
-
-# displays help
-vue2-migration-helper --help
-```
-
-### Programatically use
-
-```ts
-import { vue2MigrationHelper } from 'vue2-migration-helper'
-
-vue2MigrationHelper({
-  source: 'source/',
-  target: 'target/'
-})
-```
 
 ## Example
 
@@ -177,8 +177,10 @@ import {
   onCreated,
   onMounted
 } from 'vue'
+
 import SomeComponent from './SomeComponent'
 const zero = {}
+
 export default {
   components: {
     SomeComponent
