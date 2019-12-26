@@ -1,8 +1,9 @@
 module.exports = {
   automock: false,
   collectCoverage: false,
+  coverageDirectory: 'coverage',
   collectCoverageFrom: [
-    'src/utilities/**/*.ts',
+    'src/**/*.ts',
     '!**/@declarations/**',
     '!**/@enums/**',
     '!**/@interfaces/**'
@@ -20,4 +21,4 @@ module.exports = {
   setupFiles: [],
   testPathIgnorePatterns: ['/node_modules/', '.eslintrc.js', '__tests__/data/'],
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.[jt]sx?$'
-};
+}
