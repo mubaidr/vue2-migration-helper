@@ -77,7 +77,7 @@
   "repository": "https://github.com/mubaidr/vue2-migration-helper",
   "scripts": {
     "build": "run-s clean && run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
+    "build:main": "tsc -p src/tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
     "clean": "trash build test",
     "cov": "run-s build test:unit cov:html && open-cli coverage/index.html",
@@ -114,5 +114,5 @@
     "watch": "Watch and rebuild the project on save, then rerun relevant tests"
   },
   "typings": "build/main/src/index.d.ts",
-  "version": "0.1.1"
+  "version": "0.1.2"
 }

@@ -3,5 +3,6 @@
     "types": ["node", "jest"]
   },
   "extends": "../tsconfig.json",
-  "exclude": ["src/**", "__tests__/data/**"]
+  "include": ["../__tests__/**/*.ts"],
+  "exclude": ["node_modules/**", "**/*.d.ts", "src/**"]
 }

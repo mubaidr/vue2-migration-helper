@@ -26,6 +26,5 @@
     "traceResolution": false,
     "typeRoots": ["node_modules/@types", "src/types"]
   },
-  "exclude": ["node_modules/**", "**/*.d.ts"],
-  "include": ["src/**/*.ts", "__tests__/**/*.ts"]
+  "exclude": ["node_modules/**", "**/*.d.ts"]
 }
