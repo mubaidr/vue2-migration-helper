@@ -114,5 +114,5 @@
     "watch": "Watch and rebuild the project on save, then rerun relevant tests"
   },
   "typings": "build/main/src/index.d.ts",
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
