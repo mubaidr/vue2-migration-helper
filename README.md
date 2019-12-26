@@ -6,6 +6,7 @@ Updates vue2 SFCs (single file components) to vue3 composition api syntax. This 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/adf93fc22bd3479da66f3d4c74a0b95f)](https://app.codacy.com/app/mubaidr/vue2-migration-helper?utm_source=github.com&utm_medium=referral&utm_content=mubaidr/vue2-migration-helper&utm_campaign=Badge_Grade_Dashboard)
 [![codecov](https://codecov.io/gh/mubaidr/vue2-migration-helper/branch/master/graph/badge.svg)](https://codecov.io/gh/mubaidr/vue2-migration-helper)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0ff1d48c-3a86-4c1b-be18-e349e2e41e12/deploy-status)](https://app.netlify.com/sites/vue2-migration-helper/deploys)
 
 [![NPM](https://nodei.co/npm/vue2-migration-helper.png)](https://nodei.co/npm/vue2-migration-helper/)
 
