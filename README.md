@@ -168,7 +168,15 @@ export default {
 this script generates Vue SFC using composition API:
 
 ```js
-import { ref, reacted, toRefs, watch, computed, onMounted } from 'vue'
+import {
+  ref,
+  reacted,
+  toRefs,
+  watch,
+  computed,
+  onCreated,
+  onMounted
+} from 'vue'
 import SomeComponent from './SomeComponent'
 const zero = {}
 export default {
@@ -188,15 +196,6 @@ export default {
       three: 'three'
     })
     const templateRef = ref(null)
-    const threeComputed = computed(() => {
-      return !data.one
-    })
-    const twoComputed = computed(() => {
-      return !data.one
-    })
-    const oneComputed = computed(() => {
-      return !data.one
-    })
     watch(three, (a, b) => {
       console.log(a, b)
     })
@@ -206,7 +205,20 @@ export default {
     watch(one, val => {
       console.log(val)
     })
-    console.log('created')
+    const oneComputed = computed(() => {
+      return !data.one
+    })
+    const twoComputed = computed(() => {
+      return data.two + 5
+    })
+    const threeComputed = computed(() => {
+      return data.three.toUpperCase()
+    })
+
+    ;(() => {
+      console.log('created')
+    })()
+
     onMounted(() => {
       console.log('mounted')
     })
@@ -220,24 +232,26 @@ export default {
     }
 
     function oneMethod() {
-      const html = templateRef.value.innerHTML
+      const html = templateRef.innerHTML
       console.log('oneMethod')
       console.log(oneComputed)
+      console.log(context.$data)
     }
 
     function twoMethod() {
-      templateRef.value.innerHTML = 'html'
+      templateRef.innerHTML = 'html'
       console.log('twoMethod')
       console.log(twoComputed)
       oneMethod()
-      console.log(context.router)
+      console.log(context.$router)
     }
 
     function threeMethod() {
       console.log('threeMethod')
       console.log(threeComputed)
       twoMethod()
-      console.log(context.store)
+      console.log(fourMethod)
+      console.log(context.$store)
     }
 
     return {
