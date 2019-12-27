@@ -10,10 +10,6 @@ Transforms Vue.js SFCs to composition api syntax.
 
 [![NPM](https://nodei.co/npm/vue2-migration-helper.png)](https://nodei.co/npm/vue2-migration-helper/)
 
-<a href="https://patreon.com/mubaidr">
-  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" height="45">
-</a>
-
 ## Install
 
 ```bash
