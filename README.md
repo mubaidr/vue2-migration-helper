@@ -1,6 +1,6 @@
 # vue2-migration-helper
 
-Updates vue2 SFCs (single file components) to vue3 composition api syntax. This script contains hacky and quick implementation but the features listed here works well.
+Transforms Vue.js SFCs to composition api syntax.
 
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmubaidr%2Fvue2-migration-helper%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/mubaidr/vue2-migration-helper/goto?ref=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/72af19d6ff7240a5a4041ea5ecba65ea)](https://www.codacy.com/manual/mubaidr/vue2-migration-helper?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mubaidr/vue2-migration-helper&amp;utm_campaign=Badge_Grade)
