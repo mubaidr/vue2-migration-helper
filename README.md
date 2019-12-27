@@ -3,10 +3,10 @@
 Updates vue2 SFCs (single file components) to vue3 composition api syntax. This script contains hacky and quick implementation but the features listed here works well.
 
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmubaidr%2Fvue2-migration-helper%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/mubaidr/vue2-migration-helper/goto?ref=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/adf93fc22bd3479da66f3d4c74a0b95f)](https://app.codacy.com/app/mubaidr/vue2-migration-helper?utm_source=github.com&utm_medium=referral&utm_content=mubaidr/vue2-migration-helper&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/72af19d6ff7240a5a4041ea5ecba65ea)](https://www.codacy.com/manual/mubaidr/vue2-migration-helper?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mubaidr/vue2-migration-helper&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/mubaidr/vue2-migration-helper/branch/master/graph/badge.svg)](https://codecov.io/gh/mubaidr/vue2-migration-helper)
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0ff1d48c-3a86-4c1b-be18-e349e2e41e12/deploy-status)](https://app.netlify.com/sites/vue2-migration-helper/deploys)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 [![NPM](https://nodei.co/npm/vue2-migration-helper.png)](https://nodei.co/npm/vue2-migration-helper/)
 
