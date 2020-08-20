@@ -16,16 +16,19 @@ function getImportForKey(name: string) {
 
 export function prepareimportSpecifiers(
   exportDefaultDeclaration: types.ExportDefaultDeclaration | undefined
-) {
+): types.ImportSpecifier[] {
   const importSpecifiers: types.ImportSpecifier[] = []
 
   if (!exportDefaultDeclaration) return importSpecifiers
 
   const declaration = exportDefaultDeclaration.declaration as types.ObjectExpression
 
+  if(!declaration || !declaration.properties) return importSpecifiers
+
   declaration.properties.forEach(property => {
     if (types.isObjectMethod(property) || types.isObjectProperty(property)) {
-      const importKeyword = getImportForKey(property.key.name)
+      const name = property.key?.name
+      const importKeyword = getImportForKey(name)
 
       if (importKeyword) {
         const importSpecifier = types.importSpecifier(

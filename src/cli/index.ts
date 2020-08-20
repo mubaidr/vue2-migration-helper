@@ -18,7 +18,7 @@ const options = scriptName('vue2-migration-helper')
     type: 'string'
   })
   .help()
-  .example('vue2-migration-helper --s="source" --t="target"', '').argv
+  .example('vue2-migration-helper --source="source" --target="target"', '').argv
 
 if (!options['target']) {
   console.log(

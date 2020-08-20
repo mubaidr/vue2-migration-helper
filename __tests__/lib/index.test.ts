@@ -6,11 +6,19 @@ describe('vue2-migration-helper', () => {
     expect(vue2MigrationHelper).toBeInstanceOf(Function)
   })
 
-  // test('should be able to extract js ast from vue sfc', () => {
-  //   expect(
-  //     vue2MigrationHelper({
-  //       source: './__tests__/data/text.vue'
-  //     })
-  //   ).not.toThrow()
-  // })
+  test('should be able to extract js ast from vue sfc', () => {
+    expect(
+      () => vue2MigrationHelper({
+        source: './__tests__/data/text.vue'
+      })
+    ).not.toThrow()
+  })
+
+  test('should be able to extract js ast from vue sfc', () => {
+    expect(
+      () => vue2MigrationHelper({
+        source: './__tests__/data/test.vue'
+      })
+    ).not.toThrow()
+  })
 })

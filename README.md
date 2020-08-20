@@ -20,7 +20,7 @@ npm i vue2-migration-helper
 
 ```bash
 # convert all .vue files in source directory and outputs in target directory
-vue2-migration-helper --s="source/" --t="target/"
+vue2-migration-helper --source="source" --target="target"
 
 # displays help
 vue2-migration-helper --help

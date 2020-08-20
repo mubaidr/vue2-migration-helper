@@ -34,6 +34,7 @@ export class MigrationHelper {
 
   constructor(source: string) {
     this.template = readTemplate(source)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.templateOriginal = JSON.parse(JSON.stringify(this.template))
     this.ast = getAst(this.template.script)
     this.astOriginal = types.cloneDeep(this.ast)
@@ -58,7 +59,7 @@ export class MigrationHelper {
     updateThisReferences(this)
   }
 
-  getCode() {
+  getCode(): string {
     return updateTemplate(this.template, getCode(this.ast))
   }
 
@@ -81,6 +82,9 @@ export class MigrationHelper {
   private updateBody() {
     const declaration = this.exportDefaultDeclarationOriginal
       .declaration as types.ObjectExpression
+
+    if(!declaration || !declaration.properties) return
+
     const properties = declaration.properties
 
     for (let i = 0; i < properties.length; i += 1) {
