@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import fs from 'fs'
 import glob from 'glob'
+import mkdirp from 'mkdirp'
 import path from 'path'
 import { MigrationHelper } from './lib/MigrationHelper'
 
@@ -9,45 +10,42 @@ type Options = {
   target?: string
 }
 
-function processFile(source: string, targetRoot: string) {
+function processFile(source: string, target: string, fileName: string) {
   const migrationHelper = new MigrationHelper(source)
-  const fileName = source.split('/').pop() as string
-
-  console.log(chalk.yellow(`☞   ${source}`))
 
   // get final code
   const code = migrationHelper.getCode()
-  const targetPath = path.resolve(targetRoot, fileName)
+  const targetPath = path.resolve(target, fileName)
 
-  // write file
-  if (
-    process.env.NODE_ENV !== 'development' &&
-    process.env.NODE_ENV !== 'test'
-  ) {
+  console.info(chalk.yellow(`☞   ${source}`))
+
+  if (process.env.NODE_ENV === "development") {
+    // log code
+    console.log(code)
+  } else {
+    // write file
     fs.writeFileSync(targetPath, code)
   }
 
-  // console.log(code)
-
-  console.log(chalk.green(`✔   ${targetPath}`))
+  console.info(chalk.green(`✔   ${targetPath}`))
 }
 
-export function vue2MigrationHelper({ source, target }: Options) {
+export function vue2MigrationHelper({ source, target }: Options): void {
   // check if source directory exists
   if (!fs.existsSync(source)) {
     throw new Error(`Invalid source path: ${source}`)
   }
 
-  // check if target directory exists
-  if (target && path.dirname(target) === target) {
-    throw new Error(`Target must be a directory: ${target}`)
-  }
+  // define target path
+  const targetPath = path.dirname(target || source)
+
+  // make sure target path exists
+  mkdirp.sync(targetPath)
 
   // check if source is single file or directory
   if (fs.lstatSync(source).isFile()) {
-    processFile(source, path.dirname(target || source))
+    processFile(source, targetPath, path.basename(target||source))
   } else {
-    const targetRoot = target || source
     const sourceGlob = path.resolve(source, '**/*.vue').replace('\\', '/')
 
     // process each .vue file in source direcotry
@@ -55,7 +53,7 @@ export function vue2MigrationHelper({ source, target }: Options) {
       if (err) console.error(chalk.red(err))
 
       sources.forEach(source => {
-        processFile(source, targetRoot)
+        processFile(source, targetPath, path.basename(source))
       })
     })
   }
@@ -64,8 +62,3 @@ export function vue2MigrationHelper({ source, target }: Options) {
 export default {
   vue2MigrationHelper
 }
-
-// vue2MigrationHelper({
-//   source: '__tests__/data/',
-//   target: './tmp/'
-// })

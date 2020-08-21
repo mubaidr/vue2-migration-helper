@@ -9,7 +9,8 @@ describe('vue2-migration-helper', () => {
   test('should be able to extract js ast from vue sfc', () => {
     expect(
       () => vue2MigrationHelper({
-        source: './__tests__/data/text.vue'
+        source: './__tests__/data/one.vue',
+        target: './__tests__/data/one-target.vue',
       })
     ).not.toThrow()
   })
@@ -17,7 +18,8 @@ describe('vue2-migration-helper', () => {
   test('should be able to extract js ast from vue sfc', () => {
     expect(
       () => vue2MigrationHelper({
-        source: './__tests__/data/test.vue'
+        source: './__tests__/data/two.vue',
+        target: './__tests__/data/two-target.vue',
       })
     ).not.toThrow()
   })

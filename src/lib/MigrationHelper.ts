@@ -83,6 +83,8 @@ export class MigrationHelper {
     const declaration = this.exportDefaultDeclarationOriginal
       .declaration as types.ObjectExpression
 
+    console.log(declaration)
+
     if(!declaration || !declaration.properties) return
 
     const properties = declaration.properties
