@@ -22,8 +22,7 @@
 </template>
 <script>import "vue";
 import Vue from 'vue';
-export default Vue.extend({
-  name: 'ModalPreview',
+export default {
   props: {
     selectedRow: {
       type: Object,
@@ -43,46 +42,48 @@ export default Vue.extend({
     }
   },
 
-  data() {
-    return {
+  setup(props, context) {
+    const data = reactive({
       row: null
-    };
-  },
-
-  watch: {
-    selectedRow(val) {
-      context.row = val;
+    });
+    const txt_roll_no = ref(null);
+    watch(selectedRow, val => {
+      data.row = val;
       const el = context.$refs.txt_roll_no;
       el.focus();
+    });
+
+    (() => {
+      data.row = props.selectedRow;
+    })();
+
+    onMounted(() => {
+      const el = context.$refs.txt_roll_no;
+      el.focus();
+    });
+
+    function closeModal() {
+      context.$emit('close-modal');
+      data.row = null;
     }
 
-  },
-
-  created() {
-    context.row = context.selectedRow;
-  },
-
-  mounted() {
-    const el = context.$refs.txt_roll_no;
-    el.focus();
-  },
-
-  methods: {
-    closeModal() {
-      context.$emit('close-modal');
-      context.row = null;
-    },
-
-    next() {
+    function next() {
       context.$emit('next');
-    },
+    }
 
-    previous() {
+    function previous() {
       context.$emit('previous');
     }
 
+    return { ...ref(data),
+      closeModal,
+      next,
+      previous,
+      txt_roll_no
+    };
   }
-});</script>
+
+};</script>
 <style>.delete.is-top-right {
     position: absolute;
     top: 0;

@@ -73,21 +73,24 @@ export class MigrationHelper {
   }
 
   private addSetupMethod() {
-    const declaration = this.exportDefaultDeclaration
-      .declaration as types.ObjectExpression
-
-    declaration.properties = [this.setupMethod]
+    const declaration = types.objectExpression([this.setupMethod])
+    this.exportDefaultDeclaration.declaration = declaration
   }
 
   private updateBody() {
+    let properties: (types.ObjectMethod | types.ObjectProperty | types.SpreadElement)[] = []
     const declaration = this.exportDefaultDeclarationOriginal
-      .declaration as types.ObjectExpression
+      .declaration as (types.ObjectExpression | types.CallExpression)
 
-    console.log(declaration)
+    if(!declaration) return
 
-    if(!declaration || !declaration.properties) return
-
-    const properties = declaration.properties
+    if (types.isCallExpression(declaration)) {
+      if (types.isObjectExpression(declaration.arguments[0])) {
+        properties = declaration.arguments[0].properties
+      }
+    } else if(declaration.properties) {
+      properties = declaration.properties
+    }
 
     for (let i = 0; i < properties.length; i += 1) {
       const property = properties[i]
