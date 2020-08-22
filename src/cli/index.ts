@@ -30,7 +30,7 @@ if (!options['target']) {
       name: 'toContinue',
       message:
         '`target` option is not specified, files will be overwritten. Continue?',
-      initial: true,
+      initial: false,
     },
   ])
     .then((answers) => {
