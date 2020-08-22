@@ -19,9 +19,14 @@ export function getCode(ast: types.File): string {
 export function getExportDefaultDeclaration(
   ast: types.File
 ): types.ExportDefaultDeclaration {
-  const statement = ast.program.body.find((s) => {
+  let statement = ast.program.body.find((s) => {
     return types.isExportDefaultDeclaration(s)
   }) as types.ExportDefaultDeclaration
+
+  if (!statement) {
+    statement = types.exportDefaultDeclaration(types.objectExpression([]))
+    ast.program.body.unshift(statement)
+  }
 
   return statement
 }
