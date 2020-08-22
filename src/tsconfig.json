@@ -1,8 +1,16 @@
 {
   "compilerOptions": {
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
+  "exclude": [
+    "node_modules/**",
+    "__tests__/**",
+    "build/**"
+  ],
   "extends": "../tsconfig.json",
-  "include": ["../src/**/*.ts"],
-  "exclude": ["node_modules/**", "**/*.d.ts", "__tests__/**"]
+  "include": [
+    "../src/**/*.ts"
+  ]
 }

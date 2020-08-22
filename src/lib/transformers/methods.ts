@@ -4,7 +4,7 @@ import { MigrationHelper } from '../MigrationHelper'
 export function addMethods(
   migrationHelper: MigrationHelper,
   section: types.ObjectProperty
-) {
+): string[] {
   const setupMethodBody = migrationHelper.setupMethod.body.body
   const MethodsProps = section.value as types.ObjectExpression
   const properties = MethodsProps.properties
@@ -67,7 +67,7 @@ export function addMethods(
       const argument = property.argument as types.ArrayExpression
       const values = argument.elements as types.FunctionExpression[]
 
-      values.forEach(value => {
+      values.forEach((value) => {
         const key = value.id as types.Identifier
 
         const MethodsStatement = types.functionDeclaration(
@@ -88,7 +88,7 @@ export function addMethods(
   const returnArguments = migrationHelper.returnStatement
     .argument as types.ObjectExpression
 
-  methodIdentifiers.forEach(exportItem => {
+  methodIdentifiers.forEach((exportItem) => {
     returnArguments.properties.push(
       types.objectProperty(
         types.identifier(exportItem),

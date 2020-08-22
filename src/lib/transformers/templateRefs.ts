@@ -1,7 +1,7 @@
 import { traverse, types } from '@babel/core'
 import { MigrationHelper } from '../MigrationHelper'
 
-export function updateTemplateRefs(migrationHelper: MigrationHelper) {
+export function updateTemplateRefs(migrationHelper: MigrationHelper): void {
   const setupMethodBody = migrationHelper.setupMethod.body.body
   const returnStatementBody = migrationHelper.returnStatement
     .argument as types.ObjectExpression
@@ -31,11 +31,11 @@ export function updateTemplateRefs(migrationHelper: MigrationHelper) {
       if (!types.isMemberExpression(nodePath.parentPath.node.object)) return
 
       nodePath.parentPath.node.object = nodePath.parentPath.node.object.property
-    }
+    },
   })
 
   // add to return statement
-  templateRefSet.forEach(templateRef => {
+  templateRefSet.forEach((templateRef) => {
     returnStatementBody.properties.push(
       types.objectProperty(
         types.identifier(templateRef),
@@ -53,9 +53,9 @@ export function updateTemplateRefs(migrationHelper: MigrationHelper) {
         types.variableDeclarator(
           types.identifier(templateRef),
           types.callExpression(types.identifier('ref'), [
-            types.identifier('null')
+            types.identifier('null'),
           ])
-        )
+        ),
       ])
     )
   })

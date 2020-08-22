@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { yellow } from 'chalk'
 // @ts-ignore
 import { vue2MigrationHelper } from 'vue2-migration-helper'
@@ -9,13 +10,13 @@ const options = scriptName('vue2-migration-helper')
     alias: ['s'],
     describe: 'Source directory containing Vue single file components.',
     demandOption: true,
-    type: 'string'
+    type: 'string',
   })
   .option('target', {
     alias: ['t'],
     describe: 'Target directory to save transformed components.',
     demandOption: false,
-    type: 'string'
+    type: 'string',
   })
   .help()
   .example('vue2-migration-helper --source="source" --target="target"', '').argv
@@ -26,7 +27,8 @@ if (!options['target']) {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 vue2MigrationHelper({
   source: options.source,
-  target: options.target
+  target: options.target,
 })

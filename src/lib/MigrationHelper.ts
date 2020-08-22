@@ -1,4 +1,5 @@
 import { types } from '@babel/core'
+import { SFCDescriptor } from 'vue-template-compiler'
 import { addComponents } from './transformers/components'
 import { addComputed } from './transformers/computed'
 import { addData } from './transformers/data'
@@ -10,16 +11,11 @@ import { updateThisReferences } from './transformers/thisReferences'
 import { addWatch } from './transformers/watch'
 import { getAst, getCode, getExportDefaultDeclaration } from './utilities/ast'
 import { prepareimportSpecifiers } from './utilities/imports'
-import {
-  ContentTemplate,
-  readTemplate,
-  updateTemplate
-} from './utilities/template'
+import { readTemplate, updateTemplate } from './utilities/template'
 import { vue2Hooks } from './vue2'
 
 export class MigrationHelper {
-  readonly template: ContentTemplate
-  readonly templateOriginal: ContentTemplate
+  readonly component: SFCDescriptor
   readonly ast: types.File
   readonly astOriginal: types.File
   readonly setupMethod: types.ObjectMethod
@@ -33,10 +29,8 @@ export class MigrationHelper {
   propsIdentifiers: string[] = []
 
   constructor(source: string) {
-    this.template = readTemplate(source)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    this.templateOriginal = JSON.parse(JSON.stringify(this.template))
-    this.ast = getAst(this.template.script)
+    this.component = readTemplate(source)
+    this.ast = getAst(this.component.script?.content || '')
     this.astOriginal = types.cloneDeep(this.ast)
     this.exportDefaultDeclaration = getExportDefaultDeclaration(this.ast)
     this.exportDefaultDeclarationOriginal = getExportDefaultDeclaration(
@@ -60,7 +54,7 @@ export class MigrationHelper {
   }
 
   getCode(): string {
-    return updateTemplate(this.template, getCode(this.ast))
+    return updateTemplate(this.component, getCode(this.ast))
   }
 
   private addImports() {
@@ -78,17 +72,22 @@ export class MigrationHelper {
   }
 
   private updateBody() {
-    let properties: (types.ObjectMethod | types.ObjectProperty | types.SpreadElement)[] = []
-    const declaration = this.exportDefaultDeclarationOriginal
-      .declaration as (types.ObjectExpression | types.CallExpression)
+    let properties: (
+      | types.ObjectMethod
+      | types.ObjectProperty
+      | types.SpreadElement
+    )[] = []
+    const declaration = this.exportDefaultDeclarationOriginal.declaration as
+      | types.ObjectExpression
+      | types.CallExpression
 
-    if(!declaration) return
+    if (!declaration) return
 
     if (types.isCallExpression(declaration)) {
       if (types.isObjectExpression(declaration.arguments[0])) {
         properties = declaration.arguments[0].properties
       }
-    } else if(declaration.properties) {
+    } else if (declaration.properties) {
       properties = declaration.properties
     }
 

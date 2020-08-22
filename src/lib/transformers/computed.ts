@@ -4,7 +4,7 @@ import { MigrationHelper } from '../MigrationHelper'
 export function addComputed(
   migrationHelper: MigrationHelper,
   section: types.ObjectProperty
-) {
+): string[] {
   const setupMethodBody = migrationHelper.setupMethod.body.body
   const computedProps = section.value as types.ObjectExpression
   const properties = computedProps.properties
@@ -20,9 +20,9 @@ export function addComputed(
         types.variableDeclarator(
           types.identifier(key.name),
           types.callExpression(types.identifier('computed'), [
-            types.arrowFunctionExpression([], property.body)
+            types.arrowFunctionExpression([], property.body),
           ])
-        )
+        ),
       ])
 
       computedIdentifiers.push(key.name)
@@ -40,7 +40,7 @@ export function addComputed(
           types.variableDeclarator(
             types.identifier(key.name),
             types.callExpression(types.identifier('computed'), [value])
-          )
+          ),
         ])
 
         computedIdentifiers.push(key.name)
@@ -52,9 +52,9 @@ export function addComputed(
           types.variableDeclarator(
             types.identifier(key.name),
             types.callExpression(types.identifier('computed'), [
-              types.arrowFunctionExpression([], value.body)
+              types.arrowFunctionExpression([], value.body),
             ])
-          )
+          ),
         ])
 
         computedIdentifiers.push(key.name)
@@ -69,7 +69,7 @@ export function addComputed(
   const returnArguments = migrationHelper.returnStatement
     .argument as types.ObjectExpression
 
-  computedIdentifiers.forEach(exportItem => {
+  computedIdentifiers.forEach((exportItem) => {
     returnArguments.properties.push(
       types.objectProperty(
         types.identifier(exportItem),

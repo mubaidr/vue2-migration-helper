@@ -1,5 +1,6 @@
 {
   "env": {
+    "browser": true,
     "es6": true,
     "node": true
   },
@@ -30,6 +31,7 @@
     "@typescript-eslint/no-unused-vars": "warn",
     "no-unused-expressions": "warn",
     "no-unused-vars": "warn",
-    "sort-imports": "off"
+    "sort-imports": "off",
+    "typescript-eslint/explicit-module-boundary-types": "off"
   }
 }

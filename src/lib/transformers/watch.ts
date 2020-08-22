@@ -4,7 +4,7 @@ import { MigrationHelper } from '../MigrationHelper'
 export function addWatch(
   migrationHelper: MigrationHelper,
   section: types.ObjectProperty
-) {
+): void {
   const setupMethodBody = migrationHelper.setupMethod.body.body
   const WatchesProps = section.value as types.ObjectExpression
   const properties = WatchesProps.properties
@@ -18,7 +18,7 @@ export function addWatch(
       const WatchesStatement = types.expressionStatement(
         types.callExpression(types.identifier('watch'), [
           types.identifier(key.name),
-          types.arrowFunctionExpression(property.params, property.body)
+          types.arrowFunctionExpression(property.params, property.body),
         ])
       )
 
@@ -35,7 +35,7 @@ export function addWatch(
         const WatchesStatement = types.expressionStatement(
           types.callExpression(types.identifier('watch'), [
             types.identifier(key.name),
-            value
+            value,
           ])
         )
 
@@ -46,7 +46,7 @@ export function addWatch(
         const WatchesStatement = types.expressionStatement(
           types.callExpression(types.identifier('watch'), [
             types.identifier(key.name),
-            types.arrowFunctionExpression(value.params, value.body)
+            types.arrowFunctionExpression(value.params, value.body),
           ])
         )
 
@@ -58,14 +58,14 @@ export function addWatch(
       const argument = property.argument as types.ArrayExpression
       const values = argument.elements as types.FunctionExpression[]
 
-      values.forEach(value => {
+      values.forEach((value) => {
         const key = value.id as types.Identifier
 
         const WatchesStatement = types.variableDeclaration('const', [
           types.variableDeclarator(
             types.identifier(key.name),
             types.arrowFunctionExpression(value.params, value.body, value.async)
-          )
+          ),
         ])
 
         setupMethodBody.splice(-1, 0, WatchesStatement)

@@ -2,12 +2,12 @@ import { traverse, types } from '@babel/core'
 import { MigrationHelper } from '../MigrationHelper'
 
 //replace all this references
-export function updateThisReferences(migrationHelper: MigrationHelper) {
+export function updateThisReferences(migrationHelper: MigrationHelper): void {
   const {
     propsIdentifiers,
     dataIdentifiers,
     computedIdentifiers,
-    methodIdentifiers
+    methodIdentifiers,
   } = migrationHelper
 
   traverse(migrationHelper.ast, {
@@ -51,6 +51,6 @@ export function updateThisReferences(migrationHelper: MigrationHelper) {
       nodePath.parentPath.replaceWith(
         types.memberExpression(types.identifier('context'), parentProperty)
       )
-    }
+    },
   })
 }

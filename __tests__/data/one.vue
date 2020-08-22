@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <div class="modal is-active">
     <div class="modal-background" @click="closeModal" />
     <button
@@ -38,7 +38,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js" scoped src="./something.js">
   import Vue from 'vue'
 
   export default Vue.extend({

@@ -19,7 +19,7 @@ function processFile(source: string, target: string, fileName: string) {
 
   console.info(chalk.yellow(`☞   ${source}`))
 
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     // log code
     console.log(code)
   } else {
@@ -44,7 +44,7 @@ export function vue2MigrationHelper({ source, target }: Options): void {
 
   // check if source is single file or directory
   if (fs.lstatSync(source).isFile()) {
-    processFile(source, targetPath, path.basename(target||source))
+    processFile(source, targetPath, path.basename(target || source))
   } else {
     const sourceGlob = path.resolve(source, '**/*.vue').replace('\\', '/')
 
@@ -52,7 +52,7 @@ export function vue2MigrationHelper({ source, target }: Options): void {
     glob(sourceGlob, (err, sources) => {
       if (err) console.error(chalk.red(err))
 
-      sources.forEach(source => {
+      sources.forEach((source) => {
         processFile(source, targetPath, path.basename(source))
       })
     })
@@ -60,5 +60,5 @@ export function vue2MigrationHelper({ source, target }: Options): void {
 }
 
 export default {
-  vue2MigrationHelper
+  vue2MigrationHelper,
 }

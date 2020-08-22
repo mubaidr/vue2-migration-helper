@@ -1,26 +1,46 @@
-<template>
-  <div>
-    <div></div>
-    <div>
-      <header>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        <a>
-          <i>skip_previous</i>
-        </a>
-        <a>
-          <i>skip_next</i>
-        </a>
-        <input></input>
-      </header>
-      <section>
-        <div>
-          <img></img>
-        </div>
-      </section>
-    </div>
-    <button></button>
+<template lang="html">
+    
+<div class="modal is-active">
+  <div class="modal-background" @click="closeModal" />
+  <button
+    aria-label="close"
+    class="delete is-large is-top-right"
+    @click="closeModal"
+  />
+
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <a class="button is-pulled-left is-info" @click="previous">
+        <i class="material-icons">skip_previous</i>
+      </a>
+      &nbsp;&nbsp;&nbsp;
+      <input
+        ref="txt_roll_no"
+        v-model="row.rollNo"
+        :class="{ 'is-danger': !row.rollNo }"
+        :readonly="row.isRollNoExtracted"
+        class="input has-text-centered is-uppercase has-text-weight-bold is-family-code"
+        placeholder="Input Roll Number"
+        type="text"
+      />
+      &nbsp;&nbsp;&nbsp;
+      <a class="button is-pulled-right is-info" @click="next">
+        <i class="material-icons">skip_next</i>
+      </a>
+    </header>
+
+    <section class="modal-card-body">
+      <div class="has-text-centered">
+        <!-- Preview -->
+        <img v-show="imageSource" :src="imageSource" />
+      </div>
+    </section>
   </div>
-</template>
-<script>import "vue";
+</div>
+
+  </template>
+  <script lang="js" scoped="true" src="./something.js">
+    import "vue";
 import Vue from 'vue';
 export default {
   props: {
@@ -83,15 +103,20 @@ export default {
     };
   }
 
-};</script>
-<style>.delete.is-top-right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 99999;
-  }
+};
+  </script>
+  <style lang="scss" scoped="true">
+        
+.delete.is-top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 99999;
+}
 
-  img {
-    height: calc(100vh - 200px);
-    min-height: 600px;
-  }</style>
+img {
+  height: calc(100vh - 200px);
+  min-height: 600px;
+}
+
+      </style>

@@ -5,7 +5,7 @@ import { toVue3HookName, vue2Hooks, vue2HooksDeprecated } from '../vue2'
 export function addHooks(
   migrationHelper: MigrationHelper,
   section: types.ObjectMethod
-) {
+): void {
   const setupMethodBody = migrationHelper.setupMethod.body.body
   const key = section.key as types.Identifier
 
@@ -28,7 +28,7 @@ export function addHooks(
       0,
       types.expressionStatement(
         types.callExpression(types.identifier(name), [
-          types.arrowFunctionExpression(section.params, section.body)
+          types.arrowFunctionExpression(section.params, section.body),
         ])
       )
     )

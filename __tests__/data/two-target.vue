@@ -1,7 +1,10 @@
-<template>
-  <h1>Test Component</h1>
-</template>
-<script>import { ref, reacted, toRefs, watch, computed, onCreated, onMounted } from "vue";
+<template >
+    
+<h1 ref="templateRef" class="heading">Test Component</h1>
+
+  </template>
+  <script lang="js" scoped="true">
+    import { ref, reacted, toRefs, watch, computed, onCreated, onMounted } from "vue";
 import SomeComponent from './SomeComponent';
 const zero = {};
 export default {
@@ -92,7 +95,12 @@ export default {
     };
   }
 
-};</script>
-<style>.heading {
+};
+  </script>
+  <style >
+        
+.heading {
   font-size: large;
-}</style>
+}
+
+      </style>

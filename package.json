@@ -6,14 +6,15 @@
     }
   },
   "dependencies": {
-    "@babel/core": "7.11.1",
-    "@babel/generator": "7.11.0",
-    "@babel/parser": "7.11.3",
+    "@babel/core": "7.11.4",
+    "@babel/generator": "7.11.4",
+    "@babel/parser": "7.11.4",
     "@babel/traverse": "7.11.0",
     "chalk": "^4.1.0",
-    "fast-xml-parser": "^3.17.4",
     "glob": "^7.1.6",
     "mkdirp": "^1.0.4",
+    "vue": "^2.6.12",
+    "vue-template-compiler": "^2.6.12",
     "yargs": "^15.4.1"
   },
   "description": "Updates vue2 sfc components to vue3 composition api syntax.",
@@ -27,7 +28,7 @@
     "@types/babel__generator": "7.6.1",
     "@types/babel__preset-env": "^7.9.0",
     "@types/babel__traverse": "7.0.13",
-    "@types/eslint": "^7.2.0",
+    "@types/eslint": "^7.2.1",
     "@types/eslint-plugin-prettier": "^3.1.0",
     "@types/gh-pages": "^3.0.0",
     "@types/glob": "^7.1.3",
@@ -47,13 +48,12 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^6.2.2",
     "gh-pages": "^3.1.0",
-    "jest": "^26.4.1",
+    "jest": "^26.4.2",
     "npm-run-all": "^4.1.5",
     "open-cli": "^6.0.1",
     "prettier": "^2.0.5",
     "trash-cli": "^3.1.0",
     "ts-jest": "^26.2.0",
-    "ts-node": "^8.10.2",
     "typescript": "^4.0.2"
   },
   "engines": {
@@ -111,5 +111,5 @@
     "watch": "Watch and rebuild the project on save, then rerun relevant tests"
   },
   "typings": "build/main/src/index.d.ts",
-  "version": "0.2.0"
+  "version": "0.3.1"
 }

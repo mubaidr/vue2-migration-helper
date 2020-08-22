@@ -4,7 +4,7 @@ import { MigrationHelper } from '../MigrationHelper'
 export function addData(
   migrationHelper: MigrationHelper,
   section: types.ObjectMethod
-) {
+): string[] {
   const setupMethodBody = migrationHelper.setupMethod.body.body
   const dataReturnStatement = section.body.body[0] as types.ReturnStatement
   const argument = dataReturnStatement.argument as types.ObjectExpression
@@ -14,7 +14,7 @@ export function addData(
     types.variableDeclarator(
       types.identifier('data'),
       types.callExpression(types.identifier('reactive'), [argument])
-    )
+    ),
   ])
   setupMethodBody.unshift(reactiveStatement)
 

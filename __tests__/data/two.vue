@@ -2,7 +2,7 @@
   <h1 ref="templateRef" class="heading">Test Component</h1>
 </template>
 
-<script>
+<script lang="js" scoped>
 import SomeComponent from './SomeComponent'
 const zero = {}
 
