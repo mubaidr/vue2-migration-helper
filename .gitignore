@@ -11,3 +11,4 @@ coverage
 yarn.lock
 tmp/
 ./tmp/
+/__tests__/data/collection-converted

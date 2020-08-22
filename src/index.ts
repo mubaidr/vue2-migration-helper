@@ -13,11 +13,11 @@ type Options = {
 function processFile(source: string, target: string, fileName: string) {
   const migrationHelper = new MigrationHelper(source)
 
+  console.info(chalk.yellow(`☞   ${source}`))
+
   // get final code
   const code = migrationHelper.getCode()
   const targetPath = path.resolve(target, fileName)
-
-  console.info(chalk.yellow(`☞   ${source}`))
 
   if (process.env.NODE_ENV === 'development') {
     // log code
