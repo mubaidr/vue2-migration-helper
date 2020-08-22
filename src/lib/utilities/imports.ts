@@ -21,21 +21,36 @@ export function prepareimportSpecifiers(
 
   if (!exportDefaultDeclaration) return importSpecifiers
 
-  const declaration = exportDefaultDeclaration.declaration as types.ObjectExpression
+  const declaration = exportDefaultDeclaration.declaration as
+    | types.ObjectExpression
+    | types.CallExpression
 
-  if (!declaration || !declaration.properties) return importSpecifiers
+  if (!declaration) return importSpecifiers
 
-  declaration.properties.forEach((property) => {
+  const properties: (
+    | types.SpreadElement
+    | types.ObjectMethod
+    | types.ObjectProperty
+  )[] = []
+
+  if (types.isCallExpression(declaration)) {
+    const node = declaration.arguments[0]
+    if (types.isObjectExpression(node)) {
+      properties.concat(node.properties)
+    }
+  } else if (declaration.properties) {
+    properties.concat(declaration.properties)
+  }
+
+  properties.forEach((property) => {
     if (types.isObjectMethod(property) || types.isObjectProperty(property)) {
       const name = property.key?.name
       const importKeyword = getImportForKey(name)
-
       if (importKeyword) {
         const importSpecifier = types.importSpecifier(
           types.identifier(importKeyword),
           types.identifier(importKeyword)
         )
-
         importSpecifiers.push(importSpecifier)
       }
     }

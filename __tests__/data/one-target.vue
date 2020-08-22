@@ -1,5 +1,5 @@
 <template lang="html">
-    
+
 <div class="modal is-active">
   <div class="modal-background" @click="closeModal" />
   <button
@@ -40,7 +40,7 @@
 
   </template>
   <script lang="js" scoped="true" src="./something.js">
-    import "vue";
+    import { ref, reacted, toRefs } from "vue";
 import Vue from 'vue';
 export default {
   props: {
@@ -106,17 +106,15 @@ export default {
 };
   </script>
   <style lang="scss" scoped="true">
-        
-.delete.is-top-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 99999;
-}
+  .delete.is-top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 99999;
+  }
 
-img {
-  height: calc(100vh - 200px);
-  min-height: 600px;
-}
-
-      </style>
+  img {
+    height: calc(100vh - 200px);
+    min-height: 600px;
+  }
+</style>

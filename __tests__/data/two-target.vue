@@ -4,7 +4,7 @@
 
   </template>
   <script lang="js" scoped="true">
-    import { ref, reacted, toRefs, watch, computed, onCreated, onMounted } from "vue";
+    import { ref, reacted, toRefs } from "vue";
 import SomeComponent from './SomeComponent';
 const zero = {};
 export default {
