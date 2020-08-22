@@ -1,6 +1,8 @@
 #!/usr/bin/env node
+import chalk from 'chalk'
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { yellow } from 'chalk'
+import prompts from 'prompts'
 // @ts-ignore
 import { vue2MigrationHelper } from 'vue2-migration-helper'
 import { scriptName } from 'yargs'
@@ -22,13 +24,31 @@ const options = scriptName('vue2-migration-helper')
   .example('vue2-migration-helper --source="source" --target="target"', '').argv
 
 if (!options['target']) {
-  console.log(
-    yellow('`target` option is not specified, files will be overwritten. ')
-  )
+  prompts([
+    {
+      type: 'confirm',
+      name: 'toContinue',
+      message:
+        '`target` option is not specified, files will be overwritten. Continue?',
+      initial: true,
+    },
+  ])
+    .then((answers) => {
+      if (answers.toContinue) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        vue2MigrationHelper({
+          source: options.source,
+          target: options.target,
+        })
+      }
+    })
+    .catch((err) => {
+      console.error(chalk.red(err))
+    })
+} else {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  vue2MigrationHelper({
+    source: options.source,
+    target: options.target,
+  })
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-vue2MigrationHelper({
-  source: options.source,
-  target: options.target,
-})
