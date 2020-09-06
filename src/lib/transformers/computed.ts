@@ -7,7 +7,7 @@ export function addComputed(
 ): string[] {
   const setupMethodBody = migrationHelper.setupMethod.body.body
   const computedProps = section.value as types.ObjectExpression
-  const properties = computedProps.properties
+  const properties = computedProps ? computedProps.properties : []
   const computedIdentifiers: string[] = []
 
   for (let i = 0; i < properties.length; i += 1) {

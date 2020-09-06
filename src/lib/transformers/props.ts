@@ -9,6 +9,8 @@ export function addProps(
     .declaration as types.ObjectExpression
   const propsIdentifiers: string[] = []
 
+  if (!declaration.properties) return propsIdentifiers
+
   declaration.properties.splice(0, 0, property)
 
   if (types.isObjectExpression(property.value)) {

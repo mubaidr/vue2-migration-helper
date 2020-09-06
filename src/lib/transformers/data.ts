@@ -28,6 +28,8 @@ export function addData(
   )
 
   // collect identifiers
+  if (!argument.properties) return dataIdentifiers
+
   const properties = argument.properties
   for (let i = 0; i < properties.length; i += 1) {
     const property = properties[i]

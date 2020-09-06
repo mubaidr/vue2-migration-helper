@@ -9,6 +9,8 @@ export function addWatch(
   const WatchesProps = section.value as types.ObjectExpression
   const properties = WatchesProps.properties
 
+  if (!WatchesProps || WatchesProps.properties) return
+
   for (let i = 0; i < properties.length; i += 1) {
     const property = properties[i]
 

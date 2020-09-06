@@ -8,5 +8,8 @@ export function addComponents(
   const declaration = migrationHelper.exportDefaultDeclaration
     .declaration as types.ObjectExpression
 
+  if (!declaration) return
+  if (!declaration.properties) return
+
   declaration.properties.splice(0, 0, property)
 }

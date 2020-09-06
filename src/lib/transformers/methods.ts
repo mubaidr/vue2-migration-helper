@@ -10,6 +10,8 @@ export function addMethods(
   const properties = MethodsProps.properties
   const methodIdentifiers: string[] = []
 
+  if (!MethodsProps || !MethodsProps.properties) return methodIdentifiers
+
   for (let i = 0; i < properties.length; i += 1) {
     const property = properties[i]
 
