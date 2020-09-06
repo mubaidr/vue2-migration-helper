@@ -7,6 +7,7 @@ export function readTemplate(path: string): SFCDescriptor {
   }
 
   const source = fs.readFileSync(path, 'utf-8')
+
   return parseComponent(source, {})
 }
 

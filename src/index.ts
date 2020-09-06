@@ -11,50 +11,46 @@ type Options = {
 }
 
 function processFile(source: string, target: string, fileName: string) {
-  const migrationHelper = new MigrationHelper(source)
-
-  console.info(chalk.yellow(`☞   ${source}`))
-
-  // get final code
-  const code = migrationHelper.getCode()
-  const targetPath = path.resolve(target, fileName)
-
-  if (process.env.NODE_ENV === 'development') {
-    // log code
-    console.log(code)
-  } else {
-    // write file
-    fs.writeFileSync(targetPath, code)
+  if (process && process.env.NODE_ENV !== 'test') {
+    console.info(chalk.yellow(`☞   ${source}`))
   }
 
+  // get final code
+  const code = new MigrationHelper(source).getCode()
+
+  if (process && process.env.NODE_ENV === 'test') return
+
+  // write target file
+  const targetPath = path.resolve(target, fileName)
+  fs.writeFileSync(targetPath, code)
   console.info(chalk.green(`✔   ${targetPath}`))
 }
 
 export function vue2MigrationHelper({ source, target }: Options): void {
-  // check if source directory exists
-  if (!fs.existsSync(source)) {
-    throw new Error(`Invalid source path: ${source}`)
-  }
-
-  // define target path
-  const targetPath = path.dirname(target || source)
-
-  // make sure target path exists
-  mkdirp.sync(targetPath)
+  const src = path.resolve(source)
+  let targetPath = ''
 
   // check if source is single file or directory
-  if (fs.lstatSync(source).isFile()) {
-    processFile(source, targetPath, path.basename(target || source))
+  if (fs.lstatSync(src).isFile()) {
+    if (target) {
+      if (!fs.existsSync(target)) {
+        mkdirp.sync(target)
+      }
+
+      targetPath = target
+    } else {
+      targetPath = path.dirname(src)
+    }
+
+    processFile(src, targetPath, path.basename(target || src))
   } else {
-    const sourceGlob = path.resolve(source, '**/*.vue').replace('\\', '/')
+    const sourceGlob = path.resolve(src, '**/*.vue').replace(/\\/gi, '/')
+
+    targetPath = target ? target : src
 
     // process each .vue file in source direcotry
-    glob(sourceGlob, (err, sources) => {
-      if (err) console.error(chalk.red(err))
-
-      sources.forEach((source) => {
-        processFile(source, targetPath, path.basename(source))
-      })
+    glob.sync(sourceGlob, { nodir: true }).forEach((source) => {
+      processFile(source, targetPath, path.basename(source))
     })
   }
 }

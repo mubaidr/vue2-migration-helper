@@ -6,10 +6,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "inlineSourceMap": false,
-    "lib": [
-      "ES2015",
-      "DOM"
-    ],
+    // "lib": ["ES2015"],
     "listEmittedFiles": false,
     "listFiles": false,
     "module": "commonjs",
@@ -26,14 +23,8 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "target": "ES2015",
-    "traceResolution": false,
-    "typeRoots": [
-      "node_modules/@types",
-      "src/types"
-    ]
+    "traceResolution": false
+    // "typeRoots": ["node_modules/@types", "src/types"]
   },
-  "exclude": [
-    "node_modules/**",
-    "build/**"
-  ]
+  "exclude": ["node_modules/**", "build/**"]
 }

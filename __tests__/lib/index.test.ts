@@ -1,4 +1,13 @@
+import rimraf from 'rimraf'
 import { vue2MigrationHelper } from '../../src/'
+
+beforeEach(() => {
+  rimraf.sync('./__tests__/data/collection-converted')
+})
+
+afterAll(() => {
+  rimraf.sync('./__tests__/data/collection-converted')
+})
 
 describe('vue2-migration-helper', () => {
   test('should be defined', () => {
@@ -9,8 +18,8 @@ describe('vue2-migration-helper', () => {
   test('should be able to extract js ast from vue sfc', () => {
     expect(() =>
       vue2MigrationHelper({
-        source: './__tests__/data/collection/one.vue',
-        target: './__tests__/data/collection/one-target.vue',
+        source: './__tests__/data/one.vue',
+        target: './__tests__/data/collection-converted',
       })
     ).not.toThrow()
   })
@@ -18,8 +27,8 @@ describe('vue2-migration-helper', () => {
   test('should be able to extract js ast from vue sfc', () => {
     expect(() =>
       vue2MigrationHelper({
-        source: './__tests__/data/collection/two.vue',
-        target: './__tests__/data/collection/two-target.vue',
+        source: './__tests__/data/two.vue',
+        target: './__tests__/data/collection-converted',
       })
     ).not.toThrow()
   })
@@ -27,8 +36,8 @@ describe('vue2-migration-helper', () => {
   test('should be able to extract js ast from vue sfc', () => {
     expect(() =>
       vue2MigrationHelper({
-        source: './__tests__/data/collection/three.vue',
-        target: './__tests__/data/collection/three-target.vue',
+        source: './__tests__/data/three.vue',
+        target: './__tests__/data/collection-converted',
       })
     ).not.toThrow()
   })
@@ -36,22 +45,11 @@ describe('vue2-migration-helper', () => {
 
 describe('Try and convert all vue sfc in data/collection', () => {
   test('Should convert without failing', () => {
-    vue2MigrationHelper({
-      source: './__tests__/data/collection',
-      target: './__tests__/data/collection-converted',
-    })
-
-    // const sourceGlob = path
-    //   .resolve('../data/collection', '**/*.vue')
-    //   .replace('\\', '/')
-
-    // process each .vue file in source direcotry
-    // glob(sourceGlob, (err, sources) => {
-    //   if (err) console.error(chalk.red(err))
-
-    //   sources.forEach((source) => {
-    //     processFile(source, targetPath, path.basename(source))
-    //   })
-    // })
+    expect(() => {
+      vue2MigrationHelper({
+        source: './__tests__/data',
+        target: './__tests__/data/collection-converted',
+      })
+    }).not.toThrow()
   })
 })

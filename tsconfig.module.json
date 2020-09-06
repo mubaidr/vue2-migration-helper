@@ -1,13 +1,9 @@
 {
   "compilerOptions": {
-    "module": "ES2015",
+    "module": "commonjs",
     "outDir": "build/module",
-    "target": "esnext"
+    "target": "ES2015"
   },
-  "exclude": [
-    "node_modules/**",
-    "__tests__/**",
-    "build/**"
-  ],
+  "exclude": ["node_modules/**", "__tests__/**", "build/**"],
   "extends": "./tsconfig"
 }
